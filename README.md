@@ -9,7 +9,9 @@ base de datos.
 | Carpeta o archivo | Qué es |
 |---|---|
 | `maqueta/` | El sitio completo: diseño, textos, imágenes y el código de las páginas. |
-| `docs/requisitos-seguridad-publicacion.md` | Lo que debe cumplir el servidor donde se publique (cabeceras, caché, formularios). Lo pide Ciberseguridad. |
+
+Los **requisitos de seguridad** que debe cumplir el servidor (cabeceras, caché, formularios) no van en este
+repositorio, que es público: se entregan a Sistemas por correo.
 
 ## Cómo verla
 
@@ -31,19 +33,19 @@ por cada unidad del inventario (`unidad-<id>.html`).
 - **Formularios:** en la maqueta son de demostración y no envían nada. En el sitio publicado, **cada solicitud
   llega a Salesforce con la sucursal de la unidad y sin asesor fijo**, para que se reparta entre los vendedores
   de esa sucursal. Se registran con las API que entrega Mario. Del lado del servidor deben llevar límite de
-  envíos o CAPTCHA, validación y aviso de privacidad (ver `docs/requisitos-seguridad-publicacion.md`, sección
+  envíos o CAPTCHA, validación y aviso de privacidad (ver el documento de requisitos de seguridad, sección
   «Formularios»).
 - **WhatsApp:** en la maqueta los botones solo muestran una vista previa del mensaje. El número lo confirma
   Ángel Juárez antes de publicar.
 - **Analítica (opcional):** la página ya registra eventos en `window.dataLayer`, como clics al menú, a
   «Ver inventario» y a cotizar, pero no carga Google Tag Manager ni Analytics. Si se agregan, hay que ampliar la
-  política de seguridad de contenido (CSP), como explica el documento de requisitos.
+  política de seguridad de contenido (CSP), como explica el documento de requisitos de seguridad.
 
 ## Antes de publicar
 
 - Una dirección de pruebas por **HTTPS**, para que Camila revise que todo se vea igual y Ciberseguridad la
   escanee.
-- Respetar las cabeceras y la caché que pide `docs/requisitos-seguridad-publicacion.md`.
+- Respetar las cabeceras y la caché que pide el documento de requisitos de seguridad.
 - Hoy la página pide **no aparecer en buscadores**, con `robots.txt` y la etiqueta `robots`. Quitar eso al
   sustituir el sitio actual es decisión de Marketing.
 
