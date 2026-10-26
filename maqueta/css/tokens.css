@@ -1,0 +1,484 @@
+/* ==========================================================================
+   Go On Camiones — tokens de diseño (--go-*)
+   --------------------------------------------------------------------------
+
+   Reglas que este archivo codifica:
+   1. Naranja #EC6B23 = ACENTO de interfaz (barras, puntos, subrayados, CTA),
+      nunca relleno masivo. El protagonista es el dato.
+   2. Naranja #FC6C0F = SOLO logotipo. No usarlo en la interfaz.
+   3. El Consejo es 100% oscuro; un catálogo web necesita también secciones
+      claras (fichas, tablas, formularios). Por eso hay dos temas:
+      .tema-oscuro (default en :root) y .tema-claro. Cada uno reasigna los
+      semánticos --go-bg, --go-surface, --go-text, --go-text-muted,
+      --go-line y --go-accent (y afines). Los componentes usan SOLO
+      semánticos; los tonos crudos quedan para casos puntuales.
+   4. Sin emojis decorativos (regla 7 del Consejo).
+   5. Este archivo NO aplica estilos (salvo prefers-reduced-motion): solo
+      define variables. La hoja base decide background/color de cada tema.
+
+   Contraste (WCAG 2.x, texto normal AA >= 4.5:1; componentes/foco >= 3:1).
+   Ratios calculados con la fórmula de luminancia relativa W3C; si cambias
+   un color, recalcula y actualiza el comentario.
+   Botones con relleno (CTA naranja y WhatsApp): el contorno del botón debe
+   llegar a >= 3:1 contra el fondo en AMBOS temas. En oscuro lo da el propio
+   relleno; en claro NO (naranja 2.73-3.14, WhatsApp 1.73-1.98), así que todo
+   botón con relleno lleva SIEMPRE
+     border: var(--go-borde) solid var(--go-cta-borde);        (CTA naranja)
+     border: var(--go-borde) solid var(--go-whatsapp-borde);   (WhatsApp)
+   En oscuro esos bordes valen `transparent` y el relleno se ve a través
+   (background-clip: border-box por defecto), así que la regla es la misma
+   en los dos temas y el componente no tiene que saber en cuál vive.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     1. Paleta cruda — marca
+     ------------------------------------------------------------------------ */
+  --go-navy: #03034B;              /* fondo base del Consejo */
+  --go-navy-profundo: #0B1026;     /* texto sobre claro · fondo más profundo */
+  --go-navy-lamina: #04043A;       /* fondo de lámina Consejo */
+  --go-indigo: #1D164A;            /* bloques secundarios */
+  --go-navy-radial-medio: #09095A; /* centro del radial del dashboard */
+  --go-navy-radial-fin: #020228;   /* borde del radial del dashboard */
+  --go-negro: #000000;
+  --go-blanco: #FFFFFF;
+
+  --go-naranja: #EC6B23;           /* acento de interfaz (NO relleno masivo) */
+  --go-naranja-alt: #EB6440;       /* segundo tono del degradado de barra */
+  --go-naranja-hover: #F07A36;     /* CTA en hover */
+  --go-naranja-activo: #D95F1B;    /* CTA presionado */
+  --go-naranja-tinta: #A8440B;     /* naranja como TEXTO sobre fondo claro */
+  --go-naranja-claro: #FF9A5C;     /* anillo de foco sobre oscuro */
+  --go-naranja-logo: #FC6C0F;      /* SOLO logotipo */
+  --go-naranja-velo: rgba(236, 107, 35, 0.12);
+  --go-naranja-brillo: rgba(236, 107, 35, 0.45);
+
+  /* Acentos del sistema Consejo (vivos: pensados para fondo oscuro) */
+  --go-verde: #4ADE80;
+  --go-cian: #22D3EE;
+  --go-ambar: #F5A623;
+  --go-magenta: #E0A6F5;
+  --go-azul: #5B9DFF;
+  --go-coral: #FF7A6B;
+
+  /* Acentos «tinta»: mismo matiz oscurecido para TEXTO sobre fondo claro */
+  --go-verde-tinta: #177038;       /* antes #18743A: daba 4.42 en tarjeta clara sobre foto */
+  --go-cian-tinta: #0B6A84;
+  --go-ambar-tinta: #8A5300;
+  --go-magenta-tinta: #8E3AA8;
+  --go-azul-tinta: #1A56BF;
+  --go-coral-tinta: #B0372A;
+
+  /* WhatsApp: verde de la marca con texto oscuro (el blanco da 1.98:1).
+     Sobre fondo claro el relleno no llega a 3:1: usar el borde semántico
+     --go-whatsapp-borde (ver TEMA CLARO). */
+  --go-whatsapp: #25D366;
+  --go-whatsapp-hover: #1FC15A;
+  --go-whatsapp-texto: #0B1026;
+
+  /* ------------------------------------------------------------------------
+     2. Neutrales para SECCIONES CLARAS (gris frío, emparentado con el navy)
+     ------------------------------------------------------------------------ */
+  --go-papel: #F6F6F9;             /* fondo de sección clara */
+  --go-papel-alt: #EEEFF4;         /* sección clara alterna / zebra */
+  --go-crema: #F5EFE3;             /* beige cálido: fondo de todas las secciones claras */
+  --go-crema-tarjeta: #FFFCF6;     /* blanco cálido para tarjetas sobre el beige */
+  --go-crema-linea: #E6DCC8;       /* borde cálido de tarjetas claras */
+  --go-gris-50: #F6F6F9;
+  --go-gris-100: #EEEFF4;
+  --go-gris-200: #DEDFE8;          /* líneas decorativas */
+  --go-gris-300: #C5C7D4;
+  --go-gris-400: #9A9DB2;
+  --go-gris-500: #767A94;          /* borde de control (>= 3:1, también en tarjeta clara sobre foto) */
+  --go-gris-600: #666A84;          /* texto tenue */
+  --go-gris-700: #4B4F6B;          /* texto secundario */
+  --go-gris-800: #262840;
+  --go-gris-900: #151729;
+
+  /* Superficies oscuras (sólidas y translúcidas) */
+  --go-oscuro-superficie: #0E1152;
+  --go-oscuro-superficie-2: #15185C;
+  --go-tarjeta-fondo: rgba(11, 13, 58, 0.84);      /* tarjeta translúcida Consejo */
+  --go-tarjeta-fondo-solido: #0B0D3A;
+  --go-tarjeta-borde: rgba(255, 255, 255, 0.14);
+  --go-banda-fondo: rgba(8, 10, 46, 0.84);
+
+  /* ------------------------------------------------------------------------
+     3. Degradados y velos de firma
+     ------------------------------------------------------------------------ */
+  --go-grad-fondo: linear-gradient(135deg, #03034B 0%, #1D164A 50%, #03034B 100%);
+  --go-grad-radial: radial-gradient(ellipse 120% 90% at 70% 30%, #09095A 0%, #03034B 55%, #020228 100%);
+  --go-grad-barra: linear-gradient(90deg, #EC6B23, #EB6440, #EC6B23);
+  /* Velo por franjas sobre foto a sangre: fuerte en título (0-30%), abierto
+     en la zona de tarjetas (35-72%), cierra de nuevo para el pie. */
+  --go-velo-franjas:
+    linear-gradient(180deg,
+      rgba(3, 4, 58, 0.90) 0%,
+      rgba(4, 5, 60, 0.80) 18%,
+      rgba(5, 6, 62, 0.66) 27%,
+      rgba(8, 6, 60, 0.24) 37%,
+      rgba(8, 6, 60, 0.24) 72%,
+      rgba(3, 3, 40, 0.62) 88%,
+      rgba(2, 2, 32, 0.86) 100%),
+    linear-gradient(100deg, rgba(6, 8, 74, 0.50) 0%, rgba(12, 10, 82, 0.08) 55%, rgba(38, 14, 74, 0.22) 100%);
+  /* Velo profundo: cuando hay texto suelto sobre toda la foto */
+  --go-velo-profundo:
+    linear-gradient(180deg, rgba(3, 4, 58, 0.92) 0%, rgba(5, 6, 64, 0.60) 24%, rgba(8, 6, 60, 0.46) 62%, rgba(2, 2, 32, 0.90) 100%),
+    linear-gradient(100deg, rgba(6, 8, 74, 0.72) 0%, rgba(12, 10, 82, 0.26) 55%, rgba(38, 14, 74, 0.40) 100%);
+  /* Velo inferior para miniaturas de catálogo (texto al pie de la foto) */
+  --go-velo-pie: linear-gradient(180deg, rgba(3, 3, 40, 0) 40%, rgba(3, 3, 40, 0.72) 78%, rgba(2, 2, 32, 0.92) 100%);
+  /* Banda de cierre: usar como `background: var(--go-banda-grad), var(--go-banda-fondo);`
+     con `border-left: var(--go-borde-banda) solid var(--go-naranja);` */
+  --go-banda-grad: linear-gradient(90deg, rgba(236, 107, 35, 0.26) 0%, rgba(236, 107, 35, 0.09) 55%, rgba(236, 107, 35, 0.02) 100%);
+  --go-banda-grad-verde: linear-gradient(90deg, rgba(74, 222, 128, 0.22) 0%, rgba(74, 222, 128, 0.07) 55%, rgba(74, 222, 128, 0.02) 100%);
+
+  /* ------------------------------------------------------------------------
+     4. Tipografía
+     ------------------------------------------------------------------------ */
+  --go-font-display: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --go-font-body: 'Montserrat', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --go-font-mono: ui-monospace, 'Cascadia Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  --go-peso-regular: 400;
+  --go-peso-semi: 600;
+  --go-peso-bold: 700;
+  --go-peso-extra: 800;
+  --go-peso-black: 900;
+
+  /* Escala fluida: min @360px de viewport -> max @1440px (lineal entre ambos).
+     La parte en rem respeta el zoom de texto del usuario. */
+  --go-fs-xs: clamp(0.75rem, 0.7292rem + 0.0926vw, 0.8125rem);    /* 12 -> 13px  notas, fuentes */
+  --go-fs-sm: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem);   /* 14 -> 15px  chips, labels */
+  --go-fs-base: clamp(1rem, 0.9792rem + 0.0926vw, 1.0625rem);     /* 16 -> 17px  cuerpo */
+  --go-fs-md: clamp(1.125rem, 1.0833rem + 0.1852vw, 1.25rem);     /* 18 -> 20px  lead corto */
+  --go-fs-lg: clamp(1.25rem, 1.1667rem + 0.3704vw, 1.5rem);       /* 20 -> 24px  lead / h4 */
+  --go-fs-xl: clamp(1.5rem, 1.3333rem + 0.7407vw, 2rem);          /* 24 -> 32px  h3 */
+  --go-fs-2xl: clamp(1.75rem, 1.4167rem + 1.4815vw, 2.75rem);     /* 28 -> 44px  h2 */
+  --go-fs-3xl: clamp(2.125rem, 1.5833rem + 2.4074vw, 3.75rem);    /* 34 -> 60px  h1 */
+  --go-fs-4xl: clamp(2.5rem, 1.6667rem + 3.7037vw, 5rem);         /* 40 -> 80px  hero */
+  --go-fs-kpi: clamp(2.75rem, 1.6667rem + 4.8148vw, 6rem);        /* 44 -> 96px  cifra protagonista */
+
+  --go-lh-kpi: 0.98;
+  --go-lh-titulo-apretado: 1.06;   /* títulos en mayúsculas (Consejo) */
+  --go-lh-titulo: 1.15;
+  --go-lh-cuerpo: 1.55;
+  --go-lh-relajado: 1.7;
+
+  --go-tracking-eyebrow: 0.3em;    /* tag de bloque: mayúsculas, naranja */
+  --go-tracking-label: 0.16em;     /* label de tarjeta / KPI */
+  --go-tracking-titulo: 0.01em;
+  --go-tracking-kpi: -0.02em;
+  --go-tracking-normal: 0;
+
+  /* ------------------------------------------------------------------------
+     5. Espaciado (base 4px) + ritmos fluidos
+     ------------------------------------------------------------------------ */
+  --go-sp-0: 0;
+  --go-sp-1: 0.25rem;   /*  4px */
+  --go-sp-2: 0.5rem;    /*  8px */
+  --go-sp-3: 0.75rem;   /* 12px */
+  --go-sp-4: 1rem;      /* 16px */
+  --go-sp-5: 1.25rem;   /* 20px */
+  --go-sp-6: 1.5rem;    /* 24px */
+  --go-sp-7: 1.75rem;   /* 28px */
+  --go-sp-8: 2rem;      /* 32px */
+  --go-sp-10: 2.5rem;   /* 40px */
+  --go-sp-12: 3rem;     /* 48px */
+  --go-sp-16: 4rem;     /* 64px */
+  --go-sp-20: 5rem;     /* 80px */
+  --go-sp-24: 6rem;     /* 96px */
+  --go-sp-seccion: clamp(3.5rem, 2.1667rem + 5.9259vw, 7.5rem);  /* 56 -> 120px entre secciones */
+  --go-sp-bloque: clamp(2rem, 1.3333rem + 2.9630vw, 4rem);       /* 32 -> 64px entre bloques */
+  --go-sp-gutter: clamp(1rem, 0.3333rem + 2.9630vw, 3rem);       /* 16 -> 48px margen lateral */
+  --go-pad-tarjeta: clamp(1.25rem, 1.0833rem + 0.7407vw, 1.875rem); /* 20 -> 30px */
+
+  /* ------------------------------------------------------------------------
+     6. Radios (suaves), bordes y barras de firma
+     ------------------------------------------------------------------------ */
+  --go-radio-xs: 4px;
+  --go-radio-sm: 8px;
+  --go-radio-md: 12px;
+  --go-radio-lg: 16px;     /* tarjeta Consejo */
+  --go-radio-xl: 24px;
+  --go-radio-pill: 999px;
+  --go-borde: 1px;
+  --go-borde-banda: 6px;   /* borde izquierdo naranja de la banda de cierre */
+  --go-barra-marca: 4px;   /* barras top/bottom con --go-grad-barra (8px en lámina 1920) */
+  --go-punto: 0.8125rem;   /* 13px: punto de color del label de tarjeta */
+
+  /* ------------------------------------------------------------------------
+     7. Sombras
+     ------------------------------------------------------------------------ */
+  --go-sombra-1: 0 1px 2px rgba(11, 16, 38, 0.06), 0 1px 3px rgba(11, 16, 38, 0.10);
+  --go-sombra-2: 0 2px 4px rgba(11, 16, 38, 0.06), 0 6px 16px rgba(11, 16, 38, 0.10);
+  --go-sombra-3: 0 4px 8px rgba(11, 16, 38, 0.06), 0 16px 36px rgba(11, 16, 38, 0.14);
+  --go-sombra-4: 0 8px 16px rgba(3, 3, 75, 0.10), 0 28px 64px rgba(3, 3, 75, 0.28); /* modal, panel */
+  --go-sombra-oscura: 0 12px 40px rgba(0, 0, 0, 0.45);   /* elevación sobre fondo oscuro */
+  --go-sombra-brillo: 0 0 0 1px rgba(236, 107, 35, 0.35), 0 8px 28px rgba(236, 107, 35, 0.22);
+  --go-sombra-texto: 0 2px 14px rgba(0, 0, 0, 0.55);     /* lead sobre foto (Consejo) */
+
+  /* ------------------------------------------------------------------------
+     8. Capas (z-index)
+     ------------------------------------------------------------------------ */
+  --go-z-base: 0;
+  --go-z-elevado: 10;
+  --go-z-sticky: 100;       /* filtros pegajosos, barra de ficha */
+  --go-z-header: 200;
+  --go-z-drawer: 300;       /* menú móvil, panel de filtros */
+  --go-z-overlay: 400;
+  --go-z-modal: 500;        /* vista previa WhatsApp, galería */
+  --go-z-toast: 600;
+  --go-z-presentacion: 900; /* consola de medición / capa del modo presentación */
+
+  /* ------------------------------------------------------------------------
+     9. Anchos de contenedor y dimensiones
+     ------------------------------------------------------------------------ */
+  --go-ancho-texto: 68ch;
+  --go-ancho-estrecho: 760px;
+  --go-ancho-medio: 1040px;
+  --go-ancho-contenedor: 1280px;
+  --go-ancho-amplio: 1440px;
+  --go-alto-header: 72px;
+  --go-alto-header-movil: 60px;
+  --go-tactil-min: 44px;     /* objetivo táctil mínimo */
+
+  /* ------------------------------------------------------------------------
+     10. Movimiento
+     ------------------------------------------------------------------------ */
+  --go-dur-instantanea: 80ms;
+  --go-dur-rapida: 150ms;
+  --go-dur-base: 240ms;
+  --go-dur-lenta: 400ms;
+  --go-dur-escena: 700ms;
+  --go-curva-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+  --go-curva-salida: cubic-bezier(0.16, 1, 0.3, 1);     /* entra y frena suave */
+  --go-curva-entrada: cubic-bezier(0.7, 0, 0.84, 0);    /* se va acelerando */
+  --go-curva-enfasis: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ------------------------------------------------------------------------
+     11. Foco accesible (anillo doble: separador del color de fondo + anillo)
+     Uso: :focus-visible { outline: none; box-shadow: var(--go-foco-sombra); }
+          o bien outline: var(--go-foco-ancho) solid var(--go-foco-color);
+                 outline-offset: var(--go-foco-offset);
+     ------------------------------------------------------------------------ */
+  --go-foco-ancho: 3px;
+  --go-foco-offset: 2px;
+
+  /* ------------------------------------------------------------------------
+     11b. Sistema editorial de las páginas (fase C: concepto C + injertos A/B)
+     ------------------------------------------------------------------------ */
+  --go-noche: #020228;             /* fondo más profundo: pie, portada, banda */
+  --go-radio-editorial: 3px;       /* esquinas de botones, tarjetas y chips */
+  --go-texto-min-movil: 0.875rem;  /* 14px: piso del texto informativo en celular */
+  --go-texto-legal: 0.8125rem;     /* 13px: piso de leyendas legales y pies de foto */
+  --go-tactil-wa: 48px;            /* alto del WhatsApp por unidad */
+  /* Velo de la portada, más ligero que el del concepto C (injerto A): cierra
+     arriba para el titular, se abre al centro para que los tractos se lean y
+     vuelve a cerrar abajo para contador y criterios. */
+  --go-velo-portada:
+    linear-gradient(180deg,
+      rgba(2, 2, 40, 0.80) 0%,
+      rgba(3, 3, 75, 0.50) 20%,
+      rgba(3, 3, 75, 0.16) 40%,
+      rgba(3, 3, 64, 0.20) 58%,
+      rgba(2, 2, 44, 0.80) 82%,
+      rgba(2, 2, 40, 0.95) 100%),
+    linear-gradient(95deg, rgba(3, 3, 75, 0.66) 0%, rgba(3, 3, 75, 0.22) 46%, rgba(29, 22, 74, 0.12) 100%);
+  /* Plano técnico (injerto B) para unidades sin foto: navy con retícula */
+  --go-plano-fondo: #0B0D3A;
+  --go-plano-reticula: rgba(255, 255, 255, 0.055);
+  --go-plano-trazo: rgba(222, 226, 255, 0.82);
+  --go-plano-trazo-fino: rgba(222, 226, 255, 0.42);
+  --go-plano-oculta: rgba(222, 226, 255, 0.26);
+  --go-plano-cuerpo: rgba(91, 157, 255, 0.10);
+
+  /* ------------------------------------------------------------------------
+     12. Semánticos — TEMA OSCURO por defecto (igual que .tema-oscuro)
+     ------------------------------------------------------------------------ */
+  color-scheme: dark;
+  --go-bg: #03034B;
+  --go-bg-alt: #1D164A;
+  --go-surface: #0E1152;
+  --go-surface-2: #15185C;
+  --go-surface-translucida: rgba(11, 13, 58, 0.84);
+  --go-text: #FFFFFF;
+  --go-text-muted: #BFC1D9;
+  --go-text-faint: #9A9CC0;
+  --go-line: rgba(255, 255, 255, 0.14);
+  --go-line-strong: rgba(255, 255, 255, 0.24);
+  --go-line-control: #8A8DB2;
+  --go-accent: #EC6B23;
+  --go-accent-fill: #EC6B23;
+  --go-accent-fill-hover: #F07A36;
+  --go-accent-fill-active: #D95F1B;
+  --go-on-accent: #0B1026;
+  --go-cta-borde: transparent;
+  --go-whatsapp-borde: transparent;
+  --go-accent-velo: rgba(236, 107, 35, 0.12);
+  --go-foco-color: #FF9A5C;
+  --go-c-verde: #4ADE80;
+  --go-c-cian: #22D3EE;
+  --go-c-ambar: #F5A623;
+  --go-c-magenta: #E0A6F5;
+  --go-c-azul: #5B9DFF;
+  --go-c-coral: #FF7A6B;
+  --go-exito: #4ADE80;
+  --go-aviso: #F5A623;
+  --go-error: #FF7A6B;
+  --go-por-confirmar: #F5A623;
+  --go-foco-sombra: 0 0 0 var(--go-foco-offset) var(--go-bg), 0 0 0 calc(var(--go-foco-offset) + var(--go-foco-ancho)) var(--go-foco-color);
+}
+
+/* ==========================================================================
+   TEMA OSCURO — sello del Consejo (hero, bandas, pie, secciones de marca)
+   Ratios (texto normal, AA >= 4.5):
+     --go-text #FFFFFF       sobre #03034B 18.78 · #1D164A 16.59 · #0E1152 17.20 · #15185C 15.94
+     --go-text-muted #BFC1D9 sobre #03034B 10.59 · #1D164A  9.36 · #0E1152  9.70 · #15185C  8.99
+     --go-text-faint #9A9CC0 sobre #03034B  7.05 · #1D164A  6.23 · #0E1152  6.46 · #15185C  5.99
+     --go-accent #EC6B23     sobre #03034B  5.98 · #1D164A  5.29 · #0E1152  5.48 · #15185C  5.08
+     acentos vivos sobre #03034B: verde 10.77 · cian 10.39 · ámbar 9.26 · magenta 9.78 · azul 6.89 · coral 7.37
+       (sobre #15185C, el peor: azul 5.86 · naranja 5.08)
+     CTA: --go-on-accent #0B1026 sobre #EC6B23 6.00 · hover #F07A36 6.76 · activo #D95F1B 5.02
+       (OJO: blanco sobre #EC6B23 = 3.14 -> solo texto grande >= 24px o >= 18.66px bold)
+     WhatsApp: #0B1026 sobre #25D366 9.48 · hover #1FC15A 7.91 (blanco = 1.98, prohibido)
+     No-texto (>= 3:1): --go-line-control #8A8DB2 vs #03034B 5.84 · #15185C 4.96
+                        --go-foco-color #FF9A5C vs #03034B 8.97 · #15185C 7.61
+     Contorno de botones con relleno (--go-cta-borde / --go-whatsapp-borde =
+     transparent: el contorno ES el relleno), peor fondo #15185C:
+       naranja #EC6B23 5.08 · hover #F07A36 5.73 · activo #D95F1B 4.25
+       WhatsApp #25D366 8.04 · hover #1FC15A 6.71
+       dentro de tarjeta translúcida sobre foto blanca (#32345A): naranja 3.77 ·
+       hover 4.25 · activo 3.16 · WhatsApp 5.97 · hover 4.98 (todos >= 3).
+     Tarjeta translúcida rgba(11,13,58,.84), PEOR caso con foto blanca detrás
+     (= #32345A): blanco 11.83 · muted 6.68 · faint 4.45 (no usar faint ahí) ·
+     naranja 3.77 (no usar naranja para texto normal dentro de tarjeta sobre foto;
+     sí para puntos, bordes y cifras grandes) · azul 4.35 (tampoco como texto
+     ahí) · resto de acentos >= 4.65 (coral 4.65, ámbar 5.84, magenta 6.17,
+     cian 6.55, verde 6.79) · line-control 3.68 · foco 5.65.
+   ========================================================================== */
+.tema-oscuro {
+  color-scheme: dark;
+  --go-bg: #03034B;
+  --go-bg-alt: #1D164A;
+  --go-surface: #0E1152;
+  --go-surface-2: #15185C;
+  --go-surface-translucida: rgba(11, 13, 58, 0.84);
+  --go-text: #FFFFFF;
+  --go-text-muted: #BFC1D9;
+  --go-text-faint: #9A9CC0;
+  --go-line: rgba(255, 255, 255, 0.14);
+  --go-line-strong: rgba(255, 255, 255, 0.24);
+  --go-line-control: #8A8DB2;
+  --go-accent: #EC6B23;
+  --go-accent-fill: #EC6B23;
+  --go-accent-fill-hover: #F07A36;
+  --go-accent-fill-active: #D95F1B;
+  --go-on-accent: #0B1026;
+  --go-cta-borde: transparent;
+  --go-whatsapp-borde: transparent;
+  --go-accent-velo: rgba(236, 107, 35, 0.12);
+  --go-foco-color: #FF9A5C;
+  --go-c-verde: #4ADE80;
+  --go-c-cian: #22D3EE;
+  --go-c-ambar: #F5A623;
+  --go-c-magenta: #E0A6F5;
+  --go-c-azul: #5B9DFF;
+  --go-c-coral: #FF7A6B;
+  --go-exito: #4ADE80;
+  --go-aviso: #F5A623;
+  --go-error: #FF7A6B;
+  --go-por-confirmar: #F5A623;
+  --go-foco-sombra: 0 0 0 var(--go-foco-offset) var(--go-bg), 0 0 0 calc(var(--go-foco-offset) + var(--go-foco-ancho)) var(--go-foco-color);
+}
+
+/* ==========================================================================
+   TEMA CLARO — catálogo, fichas, tablas, formularios, calculadora
+   Ratios (texto normal, AA >= 4.5), el peor fondo es --go-bg-alt #EEEFF4:
+     --go-text #0B1026        sobre #FFFFFF 18.81 · #F6F6F9 17.44 · #EEEFF4 16.38
+     --go-text-muted #4B4F6B  sobre #FFFFFF  7.99 · #F6F6F9  7.40 · #EEEFF4  6.95
+     --go-text-faint #666A84  sobre #FFFFFF  5.30 · #F6F6F9  4.92 · #EEEFF4  4.62
+     --go-accent #A8440B      sobre #FFFFFF  6.01 · #F6F6F9  5.57 · #EEEFF4  5.23
+       (el naranja de marca #EC6B23 como texto sobre claro da 2.73-3.14: NO usar;
+        #FFFFFF 3.14 · #F6F6F9 2.91 · #EEEFF4 2.73)
+     acentos tinta sobre #EEEFF4: verde #177038 5.36 · cian #0B6A84 5.36 · ámbar #8A5300 5.51
+                                  magenta #8E3AA8 5.51 · azul #1A56BF 5.85 · coral #B0372A 5.34
+     CTA: igual que en oscuro (#0B1026 sobre #EC6B23 6.00).
+     No-texto (>= 3:1): --go-line-control #767A94 vs #FFFFFF 4.22 · #F6F6F9 3.91 · #EEEFF4 3.67
+                        --go-foco-color #A8440B vs #F6F6F9 5.57 · #EEEFF4 5.23
+     Botones con relleno sobre claro: el RELLENO NO llega a 3:1 contra el fondo
+       (sobre #FFFFFF · #F6F6F9 · #EEEFF4):
+       naranja #EC6B23 3.14 · 2.91 · 2.73   hover #F07A36 2.78 · 2.58 · 2.42
+               activo #D95F1B 3.75 · 3.48 · 3.26
+       WhatsApp #25D366 1.98 · 1.84 · 1.73  hover #1FC15A 2.38 · 2.20 · 2.07
+       Por eso el contorno lo da un borde de 1px que NO cambia en hover/activo:
+       --go-cta-borde #A8440B      6.01 · 5.57 · 5.23 (tarjeta clara sobre foto 4.55)
+       --go-whatsapp-borde #177038 6.16 · 5.71 · 5.36 (tarjeta clara sobre foto 4.66)
+       La etiqueta también identifica el botón (#0B1026 sobre el relleno >= 5.02),
+       pero el borde es obligatorio: no se deja el botón solo al texto.
+     --go-line #DEDFE8 es decorativa (1.2-1.3:1): nunca como único borde de un control.
+     Tarjeta translúcida clara rgba(255,255,255,.88) sobre foto, PEOR caso con
+     foto negra detrás (= #E0E0E0): text 14.25 · muted 6.05 · accent 4.55 ·
+     tintas >= 4.64 (coral 4.64 · verde 4.66 · cian 4.67 · ámbar 4.79 ·
+     magenta 4.79 · azul 5.09) · faint 4.02 (NO usar faint ahí: usar muted) ·
+     line-control 3.19 · foco 4.55. Si la foto puede ser muy oscura y el texto es
+     largo, preferir --go-surface sólido.
+   ========================================================================== */
+.tema-claro {
+  color-scheme: light;
+  --go-bg: #F5EFE3;
+  --go-bg-alt: #F2ECE0;
+  --go-surface: #FFFCF6;
+  --go-surface-2: #F5EFE3;
+  --go-surface-translucida: rgba(255, 252, 246, 0.92);
+  --go-text: #0B1026;
+  --go-text-muted: #4B4F6B;
+  --go-text-faint: #666A84;
+  --go-line: #E1D8C5;
+  --go-line-strong: #CBBFA6;
+  --go-line-control: #767A94;
+  --go-accent: #A8440B;
+  --go-accent-fill: #EC6B23;
+  --go-accent-fill-hover: #F07A36;
+  --go-accent-fill-active: #D95F1B;
+  --go-on-accent: #0B1026;
+  --go-cta-borde: #A8440B;
+  --go-whatsapp-borde: #177038;
+  --go-accent-velo: rgba(236, 107, 35, 0.10);
+  --go-foco-color: #A8440B;
+  --go-c-verde: #177038;
+  --go-c-cian: #0B6A84;
+  --go-c-ambar: #8A5300;
+  --go-c-magenta: #8E3AA8;
+  --go-c-azul: #1A56BF;
+  --go-c-coral: #B0372A;
+  --go-exito: #177038;
+  --go-aviso: #8A5300;
+  --go-error: #B0372A;
+  --go-por-confirmar: #8A5300;
+  --go-foco-sombra: 0 0 0 var(--go-foco-offset) var(--go-bg), 0 0 0 calc(var(--go-foco-offset) + var(--go-foco-ancho)) var(--go-foco-color);
+}
+
+/* ==========================================================================
+   Movimiento reducido: anula duraciones (0.01ms y no 0 para que
+   transitionend/animationend sigan disparándose y ningún JS se quede colgado).
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --go-dur-instantanea: 0.01ms;
+    --go-dur-rapida: 0.01ms;
+    --go-dur-base: 0.01ms;
+    --go-dur-lenta: 0.01ms;
+    --go-dur-escena: 0.01ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

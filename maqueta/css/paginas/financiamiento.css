@@ -1,0 +1,707 @@
+/* ==========================================================================
+   Go On Camiones — financiamiento.css (página «Financiamiento»)
+   --------------------------------------------------------------------------
+   Solo lo propio de esta página (prefijo .fin-); lo común vive en base.css y
+   componentes.css. Móvil primero (390 px) y cortes 600 · 1000 · 1100 px.
+   Idea visual: el formulario es un «documento» claro y el resultado es una
+   «corrida» navy con perforación de boleto y filete naranja que acompaña al
+   visitante (sticky en escritorio si cabe completa; si no, y siempre en
+   celular, una franja fija con la mensualidad). Cifras solo en blanco, navy o
+   naranja; naranja = único CTA sólido de color; verde WhatsApp solo como señal
+   del icono. Estados de página en <body>: .fin-fijo (corrida pegajosa),
+   .fin-sim-en-vista (formulario en pantalla), .fin-vencida (vigencia vencida),
+   .fin-sin-institucion (unidad International elegida).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Portada
+   -------------------------------------------------------------------------- */
+.fin-portada__velo {
+  background:
+    linear-gradient(97deg, rgba(2, 2, 40, 0.86) 0%, rgba(3, 3, 75, 0.58) 38%, rgba(3, 3, 75, 0.06) 68%, rgba(3, 3, 75, 0) 100%),
+    var(--go-velo-portada);
+}
+.fin-portada__titulo { max-width: 13ch; }
+/* Escritorio: la foto del asesor es un panel a la derecha (≈ 62 %) que se funde
+   con el navy; así el titular queda sobre fondo liso y no sobre las personas. */
+@media (min-width: 900px) {
+  .fin-portada { background: var(--go-grad-radial); background-color: var(--go-navy); }
+  .fin-portada .portada__foto { left: auto; width: 62%; }
+  .fin-portada .portada__foto > img {
+    object-position: 78% 40%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.8) 22%, #000 36%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.8) 22%, #000 36%);
+  }
+  .fin-portada__velo {
+    background:
+      linear-gradient(97deg, rgba(2, 2, 40, 0.55) 0%, rgba(3, 3, 75, 0.3) 40%, rgba(3, 3, 75, 0) 62%),
+      linear-gradient(180deg, rgba(2, 2, 40, 0.35) 0%, rgba(2, 2, 40, 0) 22%, rgba(2, 2, 40, 0) 70%, rgba(2, 2, 40, 0.55) 100%);
+  }
+}
+/* Laptop angosta: el titular llega más a la derecha; el panel se estrecha */
+@media (min-width: 900px) and (max-width: 1279.98px) {
+  .fin-portada .portada__foto { width: 52%; }
+  .fin-portada .portada__foto > img { object-position: 88% 40%; }
+  /* Titular en tres renglones: termina antes de las personas */
+  .fin-portada .fin-portada__titulo { max-width: 12ch; }
+}
+.fin-portada__acento { color: var(--go-naranja); }
+.fin-ante-grupo { display: inline-flex; align-items: center; gap: 8px 14px; }
+body.fin-sin-institucion .fin-institucion { display: none !important; }
+.fin-criterios { margin-top: clamp(28px, 4vw, 48px); max-width: 1040px; }
+.fin-criterios .criterio__signo { font-size: 0.6em; letter-spacing: 0; }
+@media (max-width: 599.98px) {
+  .fin-portada .portada__contenido { padding-top: calc(var(--alto-cabecera) + 72px); padding-bottom: 32px; }
+  .fin-portada .portada__proposito { margin: 16px 0 20px; font-size: 1rem; }
+  .fin-portada .portada__acciones .btn { flex: 1 1 100%; }
+  /* El producto baja a su propio renglón, alineado con el texto (sin punto suelto) */
+  .fin-portada .antetitulo { row-gap: 2px; }
+  .fin-ante-grupo { flex-basis: 100%; padding-left: 50px; }
+  .fin-ante-grupo .antetitulo__sep { display: none; }
+}
+
+/* Vigencia vencida (body.fin-vencida): la página deja de afirmar las condiciones */
+.fin-si-vencida { display: none; }
+body.fin-vencida .fin-si-vigente { display: none; }
+body.fin-vencida .fin-si-vencida { display: inline; }
+body.fin-vencida [data-fin-afirmacion] { display: none !important; }
+.fin-aviso-vencida {
+  display: none; align-items: baseline; gap: 10px; width: fit-content; max-width: min(100%, 64ch); margin: 16px 0 0; padding: 10px 14px;
+  border-left: 3px solid var(--go-c-ambar); background: color-mix(in srgb, var(--go-c-ambar) 12%, transparent);
+  font: 600 var(--go-texto-min-movil)/1.45 var(--go-font-body); color: var(--go-text);
+}
+.fin-aviso-vencida .punto { flex: none; align-self: center; }
+.fin-aviso-vencida--portada { background: rgba(2, 2, 40, 0.72); color: rgba(255, 255, 255, 0.94); }
+body.fin-vencida .fin-aviso-vencida { display: flex; }
+
+/* Sin JavaScript (o si el arranque falla): nada de esqueletos ni cifras vacías.
+   Se oculta lo que solo existe con JS y todo bloque cuya cifra (data-dato) quedó vacía;
+   si el build llega a prellenar los data-dato, esos bloques vuelven solos. */
+html:not(.js) .fin-sim__rejilla, .js-fallo .fin-sim__rejilla,
+html:not(.js) .fin-matriz, .js-fallo .fin-matriz,
+html:not(.js) .fin-criterio-conteo,
+html:not(.js) .fin-criterios:has([data-dato]:empty),
+html:not(.js) .fin-reglas__rejilla:has([data-dato]:empty),
+html:not(.js) .fin-claves__item:has([data-dato]:empty) { display: none; }
+html:not(.js) .fin-reglas__rejilla:has([data-dato]:empty) + .fin-claves { margin-top: 0; }
+@media (min-width: 900px) {
+  .fin-portada__titulo { max-width: 20ch; }
+  .fin-portada .portada__contenido { padding-top: calc(var(--alto-cabecera) + clamp(56px, 6vw, 88px)); padding-bottom: clamp(40px, 4.4vw, 64px); }
+}
+
+/* --------------------------------------------------------------------------
+   Simulador: rejilla documento + corrida
+   -------------------------------------------------------------------------- */
+.fin-sinjs {
+  display: flex; align-items: baseline; gap: 12px; max-width: 64ch; margin: 0; padding: 16px 18px;
+  background: var(--go-surface); border: 1px solid var(--go-line); border-left: 3px solid var(--go-c-ambar);
+  border-radius: var(--go-radio-editorial);
+  font: 600 var(--go-fs-sm)/1.55 var(--go-font-body); color: var(--go-text);
+}
+.fin-sinjs .punto { flex: none; align-self: center; }
+.js .fin-sinjs { display: none; }
+
+.fin-sim__rejilla {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start;
+}
+
+.fin-form {
+  --fin-form-pad: clamp(18px, 3vw, 36px);
+  position: relative; min-width: 0; padding: var(--fin-form-pad);
+  background: var(--go-surface); border: 1px solid var(--go-line);
+  border-top: 4px solid var(--go-navy); border-radius: var(--go-radio-editorial);
+  box-shadow: var(--go-sombra-2);
+}
+
+.fin-paso { min-width: 0; margin: 0; padding: 0 0 clamp(24px, 3vw, 32px); border: 0; }
+.fin-paso + .fin-paso { padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--go-line-strong); }
+.fin-paso:last-of-type { padding-bottom: 0; }
+.fin-paso__titulo {
+  float: left; width: 100%; display: flex; align-items: baseline; gap: 14px;
+  margin: 0 0 18px; padding: 0;
+  font: 800 clamp(1.25rem, 1.1rem + 0.55vw, 1.5625rem)/1.2 var(--go-font-display); letter-spacing: -0.01em;
+  color: var(--go-text);
+}
+.fin-paso__titulo + * { clear: both; }
+.fin-paso__num {
+  font: 900 clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem)/0.9 var(--go-font-display);
+  letter-spacing: -0.02em; color: var(--go-accent); font-variant-numeric: tabular-nums;
+}
+
+/* Modo: inventario / precio libre (radio con aspecto segmentado) */
+.fin-modo {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 20px;
+  border: 1px solid var(--go-line-control); border-radius: var(--go-radio-editorial);
+}
+.fin-modo__op {
+  position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px;
+  padding: 8px 12px; text-align: center; cursor: pointer;
+  font: 700 0.9375rem/1.25 var(--go-font-display); color: var(--go-text);
+  transition: background-color var(--go-dur-rapida) var(--go-curva-estandar), color var(--go-dur-rapida) var(--go-curva-estandar);
+}
+.fin-modo__op + .fin-modo__op { border-left: 1px solid var(--go-line-control); }
+.fin-modo__op input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.fin-modo__op:hover { background: color-mix(in srgb, var(--go-navy) 6%, transparent); }
+.fin-modo__op:has(input:checked) { background: var(--go-navy); color: var(--go-blanco); }
+.fin-modo__op:has(input:focus-visible) { outline: var(--go-foco-ancho) solid var(--go-foco-color); outline-offset: 2px; z-index: 1; }
+
+.fin-panel { display: grid; gap: 14px; }
+.fin-libre { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 600px) {
+  .fin-libre { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+}
+.fin-select { font-size: 0.9375rem; text-overflow: ellipsis; }
+.fin-monto { font: 700 1.125rem/1.2 var(--go-font-display); font-variant-numeric: tabular-nums; }
+
+.fin-aviso {
+  margin: 0; padding: 12px 14px; border-left: 3px solid var(--go-c-ambar);
+  background: color-mix(in srgb, var(--go-c-ambar) 8%, var(--go-surface));
+  font: 600 var(--go-texto-min-movil)/1.5 var(--go-font-body); color: var(--go-text);
+}
+
+/* Resumen de la unidad elegida (contexto; la tarjeta de venta vive en Inventario) */
+.fin-unidad {
+  display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px 14px; align-items: start;
+  padding: 12px; background: var(--go-bg); border: 1px solid var(--go-line);
+  border-radius: var(--go-radio-editorial);
+}
+.fin-unidad:empty { display: none; }
+@media (min-width: 600px) {
+  .fin-unidad { grid-template-columns: 184px minmax(0, 1fr); gap: 14px 20px; padding: 14px; }
+}
+.fin-unidad__media {
+  position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+  background: var(--go-plano-fondo); border-radius: var(--go-radio-editorial);
+}
+.fin-unidad__media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.fin-unidad__media .plano__dibujo { width: 90%; margin-top: 0; }
+.fin-unidad__cuerpo { min-width: 0; }
+.fin-unidad__marca {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 0 0 4px;
+  font: 700 0.8125rem/1.3 var(--go-font-display); letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--go-text-muted);
+}
+.fin-unidad__marca .id-mono { letter-spacing: 0.04em; text-transform: none; }
+.fin-unidad__titulo {
+  margin: 0; font: 800 clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem)/1.15 var(--go-font-display);
+  letter-spacing: -0.01em; color: var(--go-text);
+}
+.fin-unidad__anio { color: var(--go-accent); font-weight: 900; }
+.fin-unidad__linea { margin: 6px 0 0; font: 600 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted); }
+.fin-unidad__precio {
+  margin: 8px 0 0; font: 900 1.375rem/1 var(--go-font-display); letter-spacing: -0.02em;
+  color: var(--go-navy); font-variant-numeric: tabular-nums;
+}
+.fin-unidad__precio small { font: 700 0.8125rem/1 var(--go-font-display); letter-spacing: 0.12em; color: var(--go-text-muted); }
+.fin-unidad__pie {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 4px 16px; padding-top: 10px; border-top: 1px solid var(--go-line);
+}
+.fin-unidad__leyenda { flex: 1 1 220px; min-width: 0; margin: 0; }
+.fin-unidad__leyenda .icono { width: 15px; height: 15px; margin-top: 2px; align-self: flex-start; color: var(--go-text-muted); }
+.fin-unidad__leyenda b { display: block; font: 700 0.8125rem/1.35 var(--go-font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--go-text); }
+.fin-unidad__ficha {
+  flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+  font: 700 0.875rem/1.2 var(--go-font-display); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--go-text); text-decoration: none; border-bottom: 2px solid var(--go-naranja);
+}
+.fin-unidad__ficha .icono { width: 16px; height: 16px; transition: transform var(--go-dur-base) var(--go-curva-salida); }
+.fin-unidad__ficha:hover .icono { transform: translateX(3px); }
+
+/* Enganche */
+.fin-enganche { gap: 8px; }
+.fin-enganche__min { margin-left: 6px; font: 500 var(--go-texto-min-movil)/1.3 var(--go-font-body); color: var(--go-text-muted); }
+.fin-enganche__fila { display: flex; align-items: stretch; gap: 10px; }
+.fin-enganche__monto { flex: 1; min-width: 0; min-height: 56px; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); font-weight: 800; }
+.fin-enganche__pct {
+  display: inline-grid; place-items: center; flex: none; min-width: 88px; padding: 0 14px;
+  background: var(--go-navy); color: var(--go-blanco); border-radius: var(--go-radio-editorial);
+  font: 800 1.125rem/1 var(--go-font-display); font-variant-numeric: tabular-nums;
+}
+
+.fin-rango {
+  --lleno: 0%;
+  -webkit-appearance: none; appearance: none; display: block;
+  width: 100%; height: 44px; margin: 10px 0 0; padding: 0; background: transparent; cursor: pointer;
+}
+.fin-rango::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--go-naranja) 0 var(--lleno), var(--go-line-control) var(--lleno) 100%);
+}
+.fin-rango::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 28px; height: 28px; margin-top: -11px;
+  background: var(--go-blanco); border: 3px solid var(--go-naranja-activo); border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(3, 3, 75, 0.28);
+  transition: transform var(--go-dur-rapida) var(--go-curva-estandar);
+}
+.fin-rango:active::-webkit-slider-thumb { transform: scale(1.1); }
+.fin-rango::-moz-range-track { height: 6px; border-radius: 3px; background: var(--go-line-control); }
+.fin-rango::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--go-naranja); }
+.fin-rango::-moz-range-thumb {
+  width: 22px; height: 22px; background: var(--go-blanco); border: 3px solid var(--go-naranja-activo);
+  border-radius: 50%; box-shadow: 0 2px 10px rgba(3, 3, 75, 0.28);
+}
+.fin-rango:focus { outline: none; }
+.fin-rango:focus-visible { outline: var(--go-foco-ancho) solid var(--go-foco-color); outline-offset: 2px; }
+.fin-rango__escala {
+  display: flex; justify-content: space-between; gap: 12px; margin-top: 2px;
+  font: 600 var(--go-texto-min-movil)/1.3 var(--go-font-body); color: var(--go-text-muted); font-variant-numeric: tabular-nums;
+}
+/* Ajuste del enganche al salir del campo (no es un error: el valor ya se corrigió) */
+.fin-ajuste {
+  display: flex; align-items: baseline; gap: 10px; margin: 2px 0 0; padding: 10px 12px;
+  border-left: 3px solid var(--go-c-ambar); background: color-mix(in srgb, var(--go-c-ambar) 8%, var(--go-surface));
+  font: 600 var(--go-texto-min-movil)/1.45 var(--go-font-body); color: var(--go-text);
+}
+.fin-ajuste[hidden] { display: none; }
+
+/* Plazos: cada opción ya dice su mensualidad */
+.fin-plazos__lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+/* Cuatro columnas solo donde cada tarjeta cabe su «$000,000/mes*» sin partirse */
+@media (min-width: 700px) and (max-width: 999.98px), (min-width: 1260px) {
+  .fin-plazos__lista { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.fin-plazo {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+  min-height: 92px; padding: 14px 14px 12px; cursor: pointer;
+  background: var(--go-surface); border: 1px solid var(--go-line-control); border-radius: var(--go-radio-editorial);
+  transition: border-color var(--go-dur-rapida) var(--go-curva-estandar), background-color var(--go-dur-rapida) var(--go-curva-estandar);
+}
+.fin-plazo input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.fin-plazo:hover { border-color: var(--go-text); }
+.fin-plazo__meses { display: flex; align-items: baseline; gap: 6px; font: 600 var(--go-texto-min-movil)/1 var(--go-font-body); color: var(--go-text-muted); }
+.fin-plazo__meses b { font: 900 1.875rem/0.9 var(--go-font-display); letter-spacing: -0.02em; color: var(--go-text); font-variant-numeric: tabular-nums; }
+.fin-plazo__monto {
+  display: block; font: 700 0.9375rem/1.25 var(--go-font-display); color: var(--go-accent);
+  font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
+.fin-plazo__marca { position: absolute; top: 10px; right: 10px; color: var(--go-accent); opacity: 0; }
+.fin-plazo__marca .icono { width: 20px; height: 20px; }
+.fin-plazo:has(input:checked) {
+  border-color: var(--go-naranja-activo); background: var(--go-accent-velo);
+  box-shadow: inset 0 0 0 1px var(--go-naranja-activo);
+}
+.fin-plazo:has(input:checked) .fin-plazo__marca { opacity: 1; }
+.fin-plazo:has(input:focus-visible) { outline: var(--go-foco-ancho) solid var(--go-foco-color); outline-offset: 2px; }
+.fin-plazo.es-inactivo { cursor: not-allowed; background: transparent; border-style: dashed; }
+.fin-plazo.es-inactivo input { cursor: not-allowed; }
+.fin-plazo.es-inactivo:hover { border-color: var(--go-line-control); }
+.fin-plazo.es-inactivo .fin-plazo__meses b,
+.fin-plazo.es-inactivo .fin-plazo__monto { color: var(--go-text-muted); font-weight: 600; }
+/* Regla de antigüedad (si recorta plazos) y nota del asterisco: dos renglones
+   distintos, para que la leyenda acompañe siempre a los montos «/mes*». */
+.fin-plazos__regla {
+  margin: 12px 0 0; padding-left: 12px; border-left: 3px solid var(--go-accent);
+  font: 600 var(--go-texto-min-movil)/1.5 var(--go-font-body); color: var(--go-text);
+}
+.fin-plazos__nota {
+  display: flex; gap: 6px; margin: 10px 0 0;
+  font: 500 var(--go-texto-legal)/1.5 var(--go-font-body); color: var(--go-text-muted);
+}
+.fin-plazos__nota .nota__marca { color: var(--go-accent); font-weight: 800; }
+.fin-plazos__regla[hidden],
+.fin-plazos__nota[hidden] { display: none; }
+
+/* Vigencia de las condiciones (solo modo P): control del presentador junto a los plazos */
+.fin-vigencia-p {
+  display: grid; gap: 10px; justify-items: start; margin-top: 24px; padding: 16px 18px;
+  background: color-mix(in srgb, var(--go-c-ambar) 7%, var(--go-surface));
+  border: 1px dashed color-mix(in srgb, var(--go-c-ambar) 70%, transparent); border-radius: var(--go-radio-editorial);
+}
+.fin-vigencia-p__texto { margin: 0; font: 500 var(--go-texto-min-movil)/1.5 var(--go-font-body); color: var(--go-text-muted); }
+
+/* Franja fija con la mensualidad a la vista mientras mueves el enganche o el
+   plazo: en celular siempre; en escritorio solo cuando la corrida no cabe completa
+   en la ventana (body sin .fin-fijo, p. ej. 1280×720). Es sticky dentro del
+   formulario (desaparece al salir de él) y en celular esconde la barra móvil del
+   shell durante ese tramo (body.fin-sim-en-vista). */
+.fin-pegado {
+  position: sticky; bottom: 0; z-index: 5;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px;
+  min-height: 64px; margin: 24px calc(-1 * var(--fin-form-pad)) calc(-1 * var(--fin-form-pad));
+  padding: 10px var(--fin-form-pad) calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(2, 2, 40, 0.97); color: var(--go-blanco); text-decoration: none;
+  border-top: 3px solid var(--go-naranja); border-radius: 0 0 var(--go-radio-editorial) var(--go-radio-editorial);
+  box-shadow: 0 -10px 28px rgba(2, 2, 40, 0.22);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.fin-pegado__texto { display: contents; }
+.fin-pegado__rotulo { grid-column: 1; font: 600 var(--go-texto-min-movil)/1.25 var(--go-font-body); color: rgba(255, 255, 255, 0.82); }
+.fin-pegado__monto { grid-column: 1; font: 700 0.9375rem/1.1 var(--go-font-display); color: rgba(255, 255, 255, 0.82); font-variant-numeric: tabular-nums; }
+.fin-pegado__monto b { font: 900 1.5rem/1 var(--go-font-display); letter-spacing: -0.02em; color: var(--go-blanco); }
+.fin-pegado.es-estado .fin-pegado__monto b { font-size: 1.0625rem; letter-spacing: 0; }
+.fin-pegado__legal {
+  grid-column: 1 / -1; margin-top: 3px;
+  font: 500 var(--go-texto-legal)/1.3 var(--go-font-body); color: rgba(255, 255, 255, 0.74);
+}
+.fin-pegado__legal[hidden] { display: none; }
+.fin-pegado__ir {
+  grid-column: 2; grid-row: 1 / span 2; align-self: center;
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 2px;
+  font: 700 0.875rem/1 var(--go-font-display); letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 2px solid var(--go-naranja);
+}
+.fin-pegado__ir .icono { width: 16px; height: 16px; }
+/* En escritorio la corrida está arriba (columna derecha); en celular, abajo. */
+.fin-pegado__arriba { display: none; }
+@media (min-width: 1000px) {
+  .fin-pegado__abajo { display: none; }
+  .fin-pegado__arriba { display: inline-block; }
+}
+.fin-pegado:focus-visible { outline-offset: -4px; }
+.js-fallo .fin-pegado,
+html:not(.js) .fin-pegado,
+.goon-estatico .fin-pegado { display: none; }
+body.fin-sim-en-vista .barra-movil { transform: translateY(110%); visibility: hidden; }
+
+/* --------------------------------------------------------------------------
+   La corrida (resultado): boleto navy con perforación
+   -------------------------------------------------------------------------- */
+.fin-recibo {
+  --fin-recibo-pad: clamp(22px, 2.6vw, 32px);
+  --fin-hueco: var(--go-papel); /* color de la sección clara que se ve por la perforación */
+  position: relative; min-width: 0; padding: var(--fin-recibo-pad);
+  background:
+    radial-gradient(ellipse 110% 70% at 100% 0%, rgba(236, 107, 35, 0.14) 0%, rgba(236, 107, 35, 0) 55%),
+    radial-gradient(ellipse 120% 90% at 80% 10%, #0E1152 0%, var(--go-navy) 55%, var(--go-noche) 100%);
+  color: var(--go-text); border-top: 4px solid var(--go-naranja); border-radius: var(--go-radio-editorial);
+  box-shadow: var(--go-sombra-4);
+}
+.fin-recibo:focus { outline: none; }
+.fin-recibo__cabeza {
+  position: relative; display: grid; gap: 6px;
+  margin: 0 calc(-1 * var(--fin-recibo-pad)); padding: 0 var(--fin-recibo-pad) 16px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.26);
+}
+.fin-recibo__cabeza::before,
+.fin-recibo__cabeza::after {
+  content: ""; position: absolute; bottom: -11px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--fin-hueco);
+}
+.fin-recibo__cabeza::before { left: -10px; }
+.fin-recibo__cabeza::after { right: -10px; }
+.fin-recibo__etiqueta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+.fin-recibo__corte { letter-spacing: 0.1em; color: var(--go-text-faint); }
+.fin-recibo__unidad { margin: 4px 0 0; font: 800 clamp(1.125rem, 1.02rem + 0.45vw, 1.3125rem)/1.25 var(--go-font-display); letter-spacing: -0.01em; color: var(--go-text); }
+.fin-recibo__meta { margin: 0; font: 600 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted); }
+.fin-recibo__meta:empty { display: none; }
+.fin-recibo__cifras { padding-top: 18px; }
+.fin-recibo__rotulo {
+  margin: 0; font: 700 0.8125rem/1.3 var(--go-font-display); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--go-text-muted);
+}
+.fin-recibo__mensualidad {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 10px 0 0;
+  color: var(--go-blanco);
+}
+.fin-recibo__monto {
+  display: inline-block; font: 900 clamp(2.75rem, 2.1rem + 2.6vw, 4.25rem)/0.95 var(--go-font-display);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.fin-recibo__mes { font: 700 1.125rem/1 var(--go-font-display); color: var(--go-text-muted); }
+.fin-recibo__mes sup { color: var(--go-naranja); font-size: 0.85em; margin-left: 1px; }
+.fin-recibo__plazo { margin: 10px 0 0; font: 600 0.9375rem/1.4 var(--go-font-body); color: var(--go-text-muted); }
+
+.fin-barra { display: flex; gap: 3px; height: 10px; margin: 18px 0 8px; }
+.fin-barra > span { display: block; min-width: 4px; flex-basis: 0; transition: flex-grow 420ms var(--go-curva-salida); }
+.fin-barra__enganche { flex-grow: 0.2; background: var(--go-naranja); }
+.fin-barra__financiado {
+  flex-grow: 0.8;
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.34) 0 2px, rgba(255, 255, 255, 0.12) 2px 7px);
+}
+.fin-barra__leyenda {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0;
+  font: 600 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted);
+}
+.fin-barra__leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+.fin-barra__leyenda b { color: var(--go-blanco); font-weight: 700; font-variant-numeric: tabular-nums; }
+.fin-barra__muestra {
+  display: inline-block; width: 10px; height: 10px;
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0 2px, rgba(255, 255, 255, 0.2) 2px 4px);
+}
+.fin-barra__muestra--enganche { background: var(--go-naranja); }
+
+.fin-desglose { margin: 16px 0 0; border-top: 1px solid var(--go-line-strong); }
+.fin-desglose > div {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid var(--go-line);
+}
+.fin-desglose dt { min-width: 0; font: 600 0.9375rem/1.35 var(--go-font-body); color: var(--go-text-muted); }
+.fin-desglose dt small { display: block; margin-top: 2px; font: 500 var(--go-texto-min-movil)/1.35 var(--go-font-body); color: var(--go-text-faint); }
+.fin-desglose dd {
+  display: block; margin: 0; flex: none; text-align: right;
+  font: 700 1.0625rem/1.2 var(--go-font-display); color: var(--go-blanco); font-variant-numeric: tabular-nums;
+}
+.fin-desglose__total { border-bottom-color: var(--go-line-strong) !important; }
+.fin-desglose__total dt { color: var(--go-blanco); font-weight: 700; }
+.fin-desglose__total dd { font-weight: 900; font-size: 1.375rem; letter-spacing: -0.01em; color: var(--go-naranja); }
+
+.fin-recibo__estado { padding: 22px 0 6px; }
+.fin-recibo__estado .punto--ambar { background: var(--go-ambar); }
+.fin-recibo__estado-titulo {
+  margin: 12px 0 0; font: 800 clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem)/1.15 var(--go-font-display);
+  letter-spacing: -0.01em; color: var(--go-blanco);
+}
+.fin-recibo__estado-texto { margin: 10px 0 0; font: 500 0.9375rem/1.55 var(--go-font-body); color: var(--go-text-muted); }
+
+.fin-recibo__nota { margin-top: 14px; }
+.fin-recibo__iva { margin: 8px 0 0; font: 500 var(--go-texto-legal)/1.5 var(--go-font-body); color: var(--go-text-muted); }
+.fin-recibo__acciones { display: grid; gap: 6px; margin-top: 16px; }
+.fin-recibo__wa { min-height: 52px; }
+
+/* Destello breve al cambiar una cifra (el texto ya es el valor final) */
+@keyframes fin-entra {
+  from { opacity: 0.25; transform: translateY(0.18em); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.goon-estatico) .fin-cambia { animation: fin-entra 320ms var(--go-curva-salida); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fin-barra > span { transition: none; }
+}
+.fin-plazo__monto.fin-cambia { display: block; }
+
+/* --------------------------------------------------------------------------
+   Corrida pegajosa, compacta y consola del modo P (después de los estilos base
+   de la corrida para que los cortes por altura ganen en la cascada)
+   -------------------------------------------------------------------------- */
+/* Escritorio: la corrida es pegajosa solo si cabe completa (con su botón de
+   WhatsApp) bajo la cabecera; financiamiento.js lo mide y pone body.fin-fijo.
+   Si no cabe, la franja fija del formulario mantiene la mensualidad a la vista.
+   La «cola» (una fila extra solo en la columna de la corrida, que toma el lugar
+   del relleno inferior de la sección) alarga el recorrido pegajoso para que la
+   mensualidad siga en pantalla mientras se eligen los plazos, al final del formulario. */
+.fin-sim__cola { display: none; }
+@media (min-width: 1000px) {
+  .fin-sim__rejilla { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  body.fin-fijo .fin-recibo { position: sticky; top: calc(var(--alto-cabecera) + 16px); grid-row: span 2; }
+  body.fin-fijo .fin-pegado { display: none; }
+}
+/* Laptops y proyectores de poca altura (1536×864, 1440×900, 1366×768…): una
+   corrida más compacta para que siga cabiendo completa y pegajosa. */
+@media (min-width: 1000px) and (max-height: 939.98px) {
+  .fin-recibo { --fin-recibo-pad: 24px; }
+  .fin-recibo__cabeza { gap: 4px; padding-bottom: 14px; }
+  .fin-recibo__cifras { padding-top: 14px; }
+  .fin-recibo__mensualidad { margin-top: 6px; }
+  .fin-recibo__monto { font-size: 3.5rem; }
+  .fin-recibo__plazo { margin-top: 8px; }
+  .fin-barra { margin: 14px 0 6px; }
+  .fin-desglose { margin-top: 12px; }
+  .fin-desglose > div { padding: 7px 0; }
+  .fin-recibo__nota { margin-top: 12px; }
+  .fin-recibo__acciones { margin-top: 12px; }
+}
+@media (min-width: 1000px) and (max-height: 819.98px) {
+  .fin-recibo__cabeza { padding-bottom: 12px; }
+  .fin-recibo__unidad { font-size: 1.125rem; }
+  .fin-recibo__monto { font-size: 3rem; }
+  .fin-recibo__plazo { margin-top: 6px; font-size: var(--go-texto-min-movil); }
+  .fin-barra { margin: 12px 0 4px; }
+  .fin-barra__leyenda { display: none; }
+  .fin-desglose > div { padding: 5px 0; }
+  .fin-desglose dt small { display: inline; margin: 0 0 0 4px; }
+  .fin-desglose dt small::before { content: "· "; }
+  .fin-recibo__nota { margin-top: 10px; }
+  .fin-recibo__iva { margin-top: 4px; }
+}
+/* Lo más bajo (1280×720) o angosto y bajo (1024×768): sin los subtítulos del
+   desglose (la comisión en % está en la portada y en las claves) */
+@media (min-width: 1000px) and (max-height: 759.98px),
+       (min-width: 1000px) and (max-width: 1199.98px) and (max-height: 819.98px) {
+  .fin-recibo__monto { font-size: 2.75rem; }
+  .fin-desglose dt small { display: none; }
+  .fin-recibo__nota { line-height: 1.4; }
+  .fin-recibo__wa { min-height: 48px; }
+  .fin-recibo__acciones { margin-top: 10px; }
+}
+
+/* Modo presentación: la consola minimizada nunca tapa la corrida ni la franja.
+   Escritorio con corrida pegajosa: mientras el simulador está en pantalla, la
+   consola pasa a la esquina izquierda (bajo ella solo corre el formulario).
+   Celular: queda justo encima de la franja fija (su alto lo mide el JS). */
+@media (min-width: 1000px) {
+  html.modo-presentacion body.fin-fijo.fin-sim-en-vista .consola { right: auto; left: 12px; }
+}
+@media (max-width: 999.98px) {
+  html.modo-presentacion body.fin-sim-en-vista .consola { bottom: calc(var(--fin-pegado-alto, 88px) + 12px); }
+}
+
+/* --------------------------------------------------------------------------
+   Trámite en tres pasos + documentación
+   -------------------------------------------------------------------------- */
+.fin-pasos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+.fin-pasos__item {
+  position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px;
+  padding: 22px 0 24px; border-top: 1px solid var(--go-line-strong);
+}
+.fin-pasos__item::before {
+  content: ""; position: absolute; left: 0; top: -1px; width: 56px; height: 3px; background: var(--go-naranja);
+}
+.fin-pasos__item > .distintivos { grid-column: 1 / -1; }
+.fin-pasos__num {
+  display: block; font: 900 clamp(2.25rem, 1.6rem + 3vw, 5.25rem)/0.85 var(--go-font-display);
+  letter-spacing: -0.02em; color: var(--go-naranja); font-variant-numeric: tabular-nums;
+}
+.fin-pasos__titulo { margin: 2px 0 8px; font: 800 clamp(1.25rem, 1.12rem + 0.55vw, 1.625rem)/1.2 var(--go-font-display); }
+.fin-pasos__cuerpo p { margin: 0; max-width: 36ch; color: var(--go-text-muted); }
+@media (min-width: 900px) {
+  .fin-pasos { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(28px, 3.4vw, 56px); }
+  .fin-pasos__item { display: block; padding: 26px 0 0; }
+  .fin-pasos__titulo { margin: 18px 0 10px; }
+}
+
+/* Recorrido de cuatro pasos y lista de documentos */
+@media (min-width: 900px) {
+  .fin-pasos--cuatro { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(20px, 2.4vw, 40px); }
+}
+.fin-lista {
+  margin: clamp(32px, 5vw, 64px) 0; padding: clamp(20px, 3vw, 36px);
+  background: rgba(2, 2, 40, 0.42); border: 1px solid rgba(70, 110, 220, 0.4); border-radius: 14px;
+}
+.fin-lista__titulo { margin: 0 0 16px; font: 800 clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem)/1.2 var(--go-font-display); }
+.fin-lista__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px 32px; }
+.fin-lista__items li { display: flex; align-items: flex-start; gap: 12px; font: 400 var(--go-fs-base)/1.5 var(--go-font-body); color: var(--go-text-muted); }
+.fin-lista__items b { color: var(--go-blanco); font-weight: 700; }
+.fin-lista__items .icono { flex: none; width: 22px; height: 22px; margin-top: 1px; color: var(--go-naranja); }
+.fin-lista__nota { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.14); font: 400 var(--go-texto-min-movil)/1.5 var(--go-font-body); color: var(--go-text-muted); }
+@media (min-width: 700px) { .fin-lista__items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fin-docs {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center;
+  margin-top: clamp(48px, 7vw, 104px);
+}
+@media (min-width: 900px) {
+  .fin-docs { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); }
+}
+.fin-docs__titulo { margin: 14px 0 16px; }
+.fin-docs__parrafo { max-width: 46ch; color: var(--go-text-muted); }
+.fin-docs__texto .btn { margin-top: 8px; }
+.fin-docs__figura {
+  position: relative; aspect-ratio: 3 / 2; overflow: hidden; margin: 0;
+  background: var(--go-noche); border-radius: var(--go-radio-editorial);
+  box-shadow: var(--go-sombra-oscura);
+}
+.fin-docs__figura > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+.fin-docs__pie { left: 12px; bottom: 12px; }
+@media (max-width: 599.98px) {
+  .fin-docs__figura { aspect-ratio: 16 / 9; }
+}
+
+/* --------------------------------------------------------------------------
+   Reglas: matriz año modelo × plazo y claves
+   -------------------------------------------------------------------------- */
+.fin-reglas__rejilla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px clamp(32px, 5vw, 80px); align-items: start; }
+@media (min-width: 1000px) {
+  .fin-reglas__rejilla { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .fin-reglas__encabezado { margin-bottom: 0; }
+}
+.fin-reglas__afirmacion { margin: 8px 0 0; max-width: 52ch; }
+.fin-reglas__afirmacion[hidden] { display: none; }
+.fin-reglas__goon {
+  display: flex; align-items: center; gap: 14px; margin: 0;
+  padding: 14px 16px; background: var(--go-bg); border-left: 3px solid var(--go-naranja);
+  font: 600 0.9375rem/1.5 var(--go-font-body); color: var(--go-text);
+}
+.fin-reglas__goon .sello-goon { flex: none; }
+
+.fin-matriz { min-width: 0; }
+.fin-matriz .tabla-marco { border-top: 2px solid var(--go-text); }
+.fin-matriz__tabla caption { padding-top: 14px; }
+.fin-matriz__tabla th,
+.fin-matriz__tabla td { padding: 10px 8px; vertical-align: middle; }
+.fin-matriz__tabla thead th { white-space: nowrap; }
+.fin-matriz__tabla thead .num { text-align: center; }
+.fin-matriz__tabla tbody th { white-space: nowrap; }
+.fin-matriz__tabla tr > :first-child { padding-left: 12px; }
+.fin-matriz__anio { display: block; font: 800 1rem/1.1 var(--go-font-display); font-variant-numeric: tabular-nums; }
+.fin-matriz__inv {
+  display: block; margin-top: 3px; font: 600 var(--go-texto-min-movil)/1.2 var(--go-font-body);
+  color: var(--go-accent); white-space: nowrap;
+}
+.fin-matriz__celda { text-align: center !important; }
+.fin-matriz__marca { display: inline-block; width: 12px; height: 2px; vertical-align: middle; background: var(--go-line-control); }
+.es-si > .fin-matriz__marca { width: 28px; height: 12px; background: var(--go-naranja); box-shadow: inset 0 0 0 1px var(--go-naranja-activo); }
+.fin-matriz__tabla tr.es-fuera th,
+.fin-matriz__tabla tr.es-fuera td { color: var(--go-text-muted); }
+.fin-matriz__tabla tr.es-fuera .fin-matriz__anio { font-weight: 600; }
+.fin-matriz__tabla tr.es-limite > * { border-bottom: 2px dashed var(--go-accent); }
+.fin-matriz__tabla tr.es-actual th,
+.fin-matriz__tabla tr.es-actual td { background: var(--go-accent-velo); }
+.fin-matriz__tabla tr.es-actual th { box-shadow: inset 3px 0 0 var(--go-naranja-activo); }
+.fin-matriz__leyenda {
+  display: flex; align-items: center; gap: 10px; margin: 12px 0 0;
+  font: 500 var(--go-texto-min-movil)/1.45 var(--go-font-body); color: var(--go-text-muted);
+}
+.fin-matriz__leyenda::before { content: ""; flex: none; width: 28px; border-top: 2px dashed var(--go-accent); }
+@media (max-width: 599.98px) {
+  .fin-matriz__u {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .fin-matriz__tabla th,
+  .fin-matriz__tabla td { padding: 9px 4px; }
+  .fin-matriz__tabla tr > :first-child { padding-left: 10px; }
+}
+
+.fin-claves {
+  display: grid; grid-template-columns: minmax(0, 1fr); margin: clamp(48px, 6vw, 88px) 0 0;
+  border-top: 2px solid var(--go-text);
+}
+.fin-claves__item { padding: 20px 0; border-bottom: 1px solid var(--go-line-strong); }
+.fin-claves__item dt {
+  display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px;
+  font: 800 1.125rem/1.25 var(--go-font-display); color: var(--go-text);
+}
+/* Letras por contador: si una clave se oculta (sin dato o condición falsa), no queda un salto A, C, D */
+.fin-claves { counter-reset: fin-clave; }
+.fin-claves__item { counter-increment: fin-clave; }
+.fin-claves__num { font: 900 1.125rem/1 var(--go-font-display); color: var(--go-accent); }
+.fin-claves__num::before { content: counter(fin-clave, upper-alpha); }
+.fin-claves__item dd { margin: 0; max-width: 40ch; font: 500 var(--go-fs-sm)/1.55 var(--go-font-body); color: var(--go-text-muted); }
+@media (min-width: 760px) {
+  .fin-claves { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; }
+}
+@media (min-width: 1100px) {
+  .fin-claves { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .fin-claves__item { padding: 24px 28px 4px 0; border-bottom: 0; }
+  .fin-claves__item + .fin-claves__item { padding-left: 28px; border-left: 1px solid var(--go-line-strong); }
+}
+
+/* --------------------------------------------------------------------------
+   Impresión
+   -------------------------------------------------------------------------- */
+@media print {
+  .fin-recibo { position: static !important; box-shadow: none; }
+  .fin-rango, .fin-recibo__acciones, .fin-vigencia-p, .fin-pegado { display: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Celular: texto informativo ≥ 14 px (las leyendas legales se quedan en 13 px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 599.98px) {
+  .fin-recibo__rotulo,
+  .fin-recibo__etiqueta,
+  .fin-unidad__marca,
+  .fin-unidad__precio small,
+  .fin-unidad__leyenda b,
+  .fin-matriz__tabla caption,
+  .fin-matriz__tabla thead th { font-size: var(--go-texto-min-movil); }
+  .fin-matriz__tabla thead th { letter-spacing: 0.06em; }
+}
+
+/* Encabezados de Simulador y Documentación: el texto ocupa todo el ancho, de «01 · …» hasta el extremo derecho de la línea */
+.fin-encabezado .titulo-seccion, .fin-encabezado .entrada,
+.fin-tramite .encabezado .titulo-seccion, .fin-tramite .encabezado .entrada { max-width: none; text-wrap: pretty; }
+@media (min-width: 1100px) {
+  .fin-encabezado .titulo-seccion, .fin-tramite .encabezado .titulo-seccion { font-size: clamp(2.5rem, 0.6rem + 2.7vw, 3.5rem); white-space: nowrap; }
+}
+
+.fin-lista .etiqueta { margin-bottom: 8px; }
+.fin-lista__items li:last-child:nth-child(odd) { grid-column: auto; }
+
+/* Dos listas de documentos: persona moral y persona física */
+.fin-listas { display: grid; gap: 20px; margin: clamp(32px, 5vw, 64px) 0; }
+.fin-listas .fin-lista { margin: 0; }
+.fin-listas .fin-lista__items { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .fin-listas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; } }

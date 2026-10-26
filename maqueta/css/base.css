@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Go On Camiones — base.css (capa 1 de 3: base → componentes → presentación)
+   --------------------------------------------------------------------------
+   Reset, tipografía, layout, secciones oscuras/claras, revelados y utilidades.
+   Solo usa tokens --go-* (tokens.css). Mobile-first: la base es 390 px y los
+   @media (min-width) amplían. Cortes del sistema: 600 · 900 · 1100 px.
+
+   Reglas del sistema (no negociables):
+   - Solo Poppins (display) y Montserrat (cuerpo). Mono solo para ids pequeños.
+   - Poppins 900: tracking >= -0.02em (0 en mayúsculas).
+   - Texto informativo en celular >= 14 px; leyendas legales >= 13 px.
+   - Naranja = único CTA sólido de color; verde WhatsApp = señal, no superficie.
+   - Todo revelado es visible por defecto: solo se oculta con html.js (que el
+     vigía del <head> retira si el JS no termina de montar).
+   ========================================================================== */
+
+:root {
+  --alto-cabecera: 64px;
+  --alto-barra-movil: 64px;
+}
+@media (min-width: 1100px) {
+  :root { --alto-cabecera: 76px; }
+}
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--alto-cabecera) + 16px);
+  background: var(--go-noche);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--go-navy);
+  color: var(--go-text);
+  font-family: var(--go-font-body);
+  font-size: var(--go-fs-base);
+  line-height: var(--go-lh-cuerpo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+body.sin-scroll { overflow: hidden; }
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+p { margin: 0 0 1em; }
+h1, h2, h3, h4, h5 { margin: 0; font-family: var(--go-font-display); line-height: var(--go-lh-titulo); }
+ul, ol { margin: 0; padding: 0; }
+figure { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+table { border-collapse: collapse; }
+time { white-space: nowrap; }
+kbd {
+  display: inline-block; min-width: 1.7em; padding: 3px 5px;
+  border: 1px solid currentColor; border-radius: var(--go-radio-editorial);
+  font: 700 0.8125rem/1 var(--go-font-display); text-align: center;
+}
+main:focus, [tabindex="-1"]:focus { outline: none; }
+
+[hidden] { display: none !important; }
+
+:focus-visible {
+  outline: var(--go-foco-ancho) solid var(--go-foco-color);
+  outline-offset: var(--go-foco-offset);
+}
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sr {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.saltar {
+  position: absolute; left: 16px; top: -120px; z-index: 1000;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 12px 18px;
+  background: var(--go-blanco); color: var(--go-navy);
+  font: 700 0.9375rem/1 var(--go-font-display); text-decoration: none;
+}
+.saltar:focus { top: 12px; }
+
+/* --------------------------------------------------------------------------
+   Tipografía
+   -------------------------------------------------------------------------- */
+.titular {
+  font: 900 clamp(2.5rem, 1.25rem + 5vw, 5.5rem)/1 var(--go-font-display);
+  letter-spacing: -0.02em; text-wrap: balance;
+}
+.titulo-seccion {
+  font: 900 clamp(2rem, 1.2rem + 3.2vw, 4.25rem)/1.06 var(--go-font-display);
+  letter-spacing: -0.02em; max-width: 18ch; text-wrap: balance;
+}
+.titulo-seccion--ancho { max-width: 26ch; }
+.subtitulo {
+  font: 800 clamp(1.375rem, 1.1rem + 1.1vw, 2.125rem)/1.12 var(--go-font-display);
+  letter-spacing: -0.01em; text-wrap: balance;
+}
+.titulo-bloque { font: 800 clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem)/1.25 var(--go-font-display); }
+.entrada {
+  font: 400 var(--go-fs-md)/1.6 var(--go-font-body);
+  color: var(--go-text-muted); max-width: 56ch;
+}
+.texto { max-width: var(--go-ancho-texto); }
+.texto-apagado { color: var(--go-text-muted); }
+.acento { color: var(--go-accent); }
+.mayusculas {
+  text-transform: uppercase; letter-spacing: var(--go-tracking-label);
+}
+.num { font-variant-numeric: tabular-nums; }
+.id-mono {
+  font: 600 0.75rem/1.2 var(--go-font-mono); letter-spacing: 0.04em;
+  color: var(--go-text-muted);
+}
+.minus { text-transform: lowercase; }
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+.envoltura {
+  width: 100%;
+  max-width: calc(var(--go-ancho-contenedor) + 2 * var(--go-sp-gutter));
+  margin-inline: auto;
+  padding-inline: var(--go-sp-gutter);
+}
+.envoltura--estrecha { max-width: calc(var(--go-ancho-medio) + 2 * var(--go-sp-gutter)); }
+.envoltura--texto { max-width: calc(760px + 2 * var(--go-sp-gutter)); }
+
+/* El contenido empieza bajo la cabecera fija, salvo que la primera pieza de
+   <main> sea una portada a sangre (data-cabecera="transparente"). */
+#contenido { display: block; padding-top: var(--alto-cabecera); }
+/* Defensa global contra el scroll horizontal: nada dentro de <main> (revelados
+   laterales antes de entrar, chips largos, sombras) ensancha la página. «clip»
+   no crea contenedor de desplazamiento, así que position: sticky sigue funcionando.
+   (overflow-x en <body> no basta: en celular el viewport se ensancha igual.) */
+main#contenido { overflow-x: clip; }
+#contenido:has(> [data-cabecera="transparente"]:first-child) { padding-top: 0; }
+
+.seccion {
+  position: relative;
+  padding-block: var(--go-sp-seccion);
+  background: var(--go-bg);
+  color: var(--go-text);
+}
+.seccion--compacta { padding-block: var(--go-sp-bloque); }
+.seccion--sin-arriba { padding-top: 0; }
+.seccion--oscura { background: var(--go-navy); }
+.seccion--noche { background: var(--go-noche); }
+.seccion--radial { background: var(--go-grad-radial); background-color: var(--go-navy); }
+/* Clara = SIEMPRE junto con .tema-claro (reasigna los semánticos). */
+.seccion--clara { background: var(--go-bg); }
+.seccion--papel { background: var(--go-surface); }
+.seccion--linea { border-top: 1px solid var(--go-line); }
+
+/* Sección con foto a sangre y velo por franjas */
+.seccion--foto { isolation: isolate; overflow: hidden; background: var(--go-noche); }
+.seccion__fondo { position: absolute; inset: 0; z-index: 0; margin: 0; }
+.seccion__fondo > img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: var(--foco-foto, 50% 50%);
+}
+.seccion__fondo::after {
+  content: ""; position: absolute; inset: 0; background: var(--go-velo-profundo);
+}
+.seccion--foto > .envoltura { position: relative; z-index: 2; }
+
+/* Rejillas */
+.pila > * + * { margin-top: var(--pila, 1rem); }
+.rejilla { display: grid; gap: var(--rejilla-gap, clamp(20px, 3vw, 40px)); grid-template-columns: minmax(0, 1fr); }
+.rejilla-tarjetas {
+  display: grid; gap: clamp(20px, 2.6vw, 32px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  align-items: stretch;
+}
+@media (min-width: 900px) {
+  .rejilla--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rejilla--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rejilla--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rejilla--texto-figura { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: center; }
+}
+@media (min-width: 1100px) {
+  .rejilla--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* --------------------------------------------------------------------------
+   Revelados: visibles por defecto; solo html.js los oculta hasta entrar.
+   comun.js pone .es-visible al entrar en pantalla. Con goon-estatico
+   (capturas), movimiento reducido o impresión, todo queda visible.
+   -------------------------------------------------------------------------- */
+.js [data-revela]:not(.es-visible) { opacity: 0; transform: translateY(22px); }
+.js [data-revela="izq"]:not(.es-visible) { transform: translateX(-24px); }
+.js [data-revela="der"]:not(.es-visible) { transform: translateX(24px); }
+.js [data-revela="escala"]:not(.es-visible) { transform: scale(0.97); }
+/* Celular: los revelados laterales entran en vertical (un desplazamiento lateral,
+   aun recortado, se nota a 390 px y puede asomar fuera de <main>). */
+@media (max-width: 599.98px) {
+  .js [data-revela="izq"]:not(.es-visible),
+  .js [data-revela="der"]:not(.es-visible) { transform: translateY(22px); }
+}
+.js [data-revela] {
+  transition: opacity 640ms var(--go-curva-salida), transform 640ms var(--go-curva-salida);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.goon-estatico [data-revela],
+.js-fallo [data-revela] { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-revela] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Utilidades
+   -------------------------------------------------------------------------- */
+@media (max-width: 899.98px) { .solo-escritorio { display: none !important; } }
+@media (min-width: 900px) { .solo-movil { display: none !important; } }
+/* Las utilidades ganan a los componentes (van con !important a propósito). */
+.centrado { text-align: center !important; margin-inline: auto !important; }
+.sin-margen { margin: 0 !important; }
+.mt-bloque { margin-top: var(--go-sp-bloque) !important; }
+.mb-bloque { margin-bottom: var(--go-sp-bloque) !important; }
+.mt-seccion { margin-top: var(--go-sp-seccion) !important; }
+.ancho-completo { width: 100% !important; }
+
+/* --------------------------------------------------------------------------
+   Impresión: todo visible, sin cromo de navegación
+   -------------------------------------------------------------------------- */
+@media print {
+  /* :root declara color-scheme: dark; sin esto Chrome pinta de negro los márgenes de la hoja. */
+  :root, html { color-scheme: light !important; }
+  html, body { background: #fff; color: #000; }
+  [data-revela] { opacity: 1 !important; transform: none !important; }
+  #contenido { padding-top: 0; }
+}

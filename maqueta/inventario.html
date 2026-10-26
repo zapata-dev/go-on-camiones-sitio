@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es" data-goon-shell>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Inventario · Go On Camiones</title>
+<meta name="description" content="Tractocamiones seminuevos Go On que califican por año modelo y kilometraje: precio en MXN, mensualidad de referencia y la plaza de cada unidad.">
+<link rel="canonical" href="inventario.html">
+<meta name="theme-color" content="#03034B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Inventario · Go On Camiones">
+<meta property="og:description" content="Tractocamiones seminuevos Go On que califican por año modelo y kilometraje: precio en MXN, mensualidad de referencia y la plaza de cada unidad.">
+<meta property="og:image" content="assets/fondos/og-go-on-1200x630.jpg">
+<meta property="og:url" content="inventario.html">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/logos/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/logos/favicon-180.png">
+<link rel="stylesheet" href="css/fuentes.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/componentes.css">
+<link rel="stylesheet" href="css/presentacion.css">
+<link rel="stylesheet" href="css/paginas/inventario.css">
+<script src="js/vigia.js"></script>
+
+</head>
+<body data-nav="inventario">
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M3.5 12h16M13.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-abajo" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-arriba" viewBox="0 0 24 24"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-externo" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.6a9.4 9.4 0 0 0-8.1 14.2L2.6 21.4l4.7-1.2A9.4 9.4 0 1 0 12 2.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.7 7.3c.2 0 .4.1.5.4l.9 2.1c.1.2.1.4 0 .6l-.5.7c-.1.2-.2.3-.1.5.5.9 1.1 1.6 1.8 2.2.6.5 1.3.9 2 1.2.2.1.4.1.5-.1l.7-.9c.2-.2.4-.2.6-.1l2 .9c.2.1.3.2.3.4 0 .6-.2 1.3-.7 1.7-.5.4-1.3.7-2.1.6-1.1-.1-2.6-.7-4.1-1.9-1.6-1.3-2.7-2.9-3.1-4-.4-1-.4-1.9 0-2.6.4-.6.9-1 1.3-1.1z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M9 17h12" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-cerrar" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-camara" viewBox="0 0 24 24"><path d="M3 8h4l1.6-2.4h6.8L17 8h4v11H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-copiar" viewBox="0 0 24 24"><path d="M9 9h10v11H9z M5 15V4h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M3.5 3.5h17v17h-17z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 12.4l3 3 6-6.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 10.5v6M12 7.2v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-proyector" viewBox="0 0 24 24"><path d="M3 4.5h18v11H3z M12 15.5v4 M8 20h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 12l3-3 2.5 2 4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.1-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.9-6.5 11-6.5 11z M12 12.4a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tel" viewBox="0 0 24 24"><path d="M6.6 3.5l3 .4 1.3 4-2 1.6a12 12 0 0 0 5.6 5.6l1.6-2 4 1.3.4 3a2 2 0 0 1-2 2.1A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2.1-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="plano-tracto" viewBox="0 0 1000 410">
+    <g class="pl-cuerpo">
+      <path d="M60 286 L62 214 Q63 198 80 194 C140 182 222 168 292 160 L352 88 Q362 82 374 82 L420 80 C440 78 452 40 486 32 L648 26 Q662 26 662 40 L662 300 L268 300 A63 63 0 0 0 142 300 L98 300 L98 286 Z"/>
+      <path d="M290 300 L662 300 L662 330 Q662 338 654 338 L300 338 Q290 338 290 328 Z"/>
+      <path d="M50 290 H100 V338 Q100 352 86 353 H62 Q50 352 50 340 Z"/>
+    </g>
+    <g class="pl-oculta">
+      <path d="M106 206 H272 V284 H106 Z M122 206 V192 H256 V206 M126 224 H252 M126 242 H252 M126 260 H252"/>
+      <path d="M292 272 H392 V306 H292 Z M312 272 V306 M352 272 V306"/>
+      <path d="M392 300 L722 336"/>
+      <path d="M440 304 H530 V336 H440 Z M458 304 V336"/>
+      <path d="M544 306 H648 V318 H544 Z M544 322 H648 V334 H544 Z"/>
+      <path d="M310 178 Q326 166 338 178 M318 192 L346 214 M300 214 H380"/>
+    </g>
+    <g class="pl-centro">
+      <path d="M205 262 V392 M130 342 H280 M725 262 V392 M650 342 H800 M855 262 V392 M780 342 H930"/>
+    </g>
+    <g class="pl-linea">
+      <path d="M60 286 L62 214 Q63 198 80 194 C140 182 222 168 292 160 L352 88 Q362 82 374 82 L420 80 C440 78 452 40 486 32 L648 26 Q662 26 662 40 L662 300"/>
+      <path d="M268 300 A63 63 0 0 0 142 300 L98 300"/>
+      <path d="M50 290 H100 V338 Q100 352 86 353 H62 Q50 352 50 340 Z"/>
+      <path d="M290 300 H662 V330 Q662 338 654 338 H300 Q290 338 290 328 Z"/>
+      <path d="M662 302 H958 V318 H662"/>
+      <path d="M744 302 L752 290 H830 L838 302"/>
+      <path d="M950 318 V324 H962 V306 H950"/>
+      <path d="M912 318 H922 V380 H912 Z"/>
+    </g>
+    <g class="pl-detalle">
+      <path d="M298 164 L352 96 Q358 92 366 92 L414 90 V168 Z"/>
+      <path d="M422 88 H452 V294 H422 Z"/>
+      <path d="M296 176 V294 H418 V176"/>
+      <path d="M402 208 H412"/>
+      <path d="M476 44 H640"/>
+      <path d="M492 108 H562 Q570 108 570 116 V146 Q570 154 562 154 H492 Q484 154 484 146 V116 Q484 108 492 108 Z"/>
+      <path d="M566 222 H646 V292 H566 Z M632 256 H640"/>
+      <path d="M52 312 H98 M52 322 H98"/>
+      <path d="M64 226 Q80 222 98 226 L96 244 Q80 242 64 246 Z"/>
+      <path d="M66 252 H96 V284 H66 Z M66 262 H96 M66 272 H96"/>
+      <path d="M142 300 Q150 250 205 246"/>
+      <path d="M318 134 L298 130 M286 110 H294 Q298 110 298 114 V146 Q298 150 294 150 H286 Q282 150 282 146 V114 Q282 110 286 110 Z"/>
+      <path d="M306 314 H356 M306 326 H356"/>
+      <path d="M664 132 C680 136 690 146 690 160 C690 172 676 174 676 186 C676 198 692 200 692 212 C692 224 676 226 676 238 C676 250 692 252 692 264 C692 276 684 286 684 296"/>
+      <path d="M664 146 C674 150 680 158 680 168"/>
+    </g>
+    <g class="pl-rueda">
+      <circle cx="205" cy="342" r="50"/><circle cx="205" cy="342" r="31"/><circle cx="205" cy="342" r="11"/>
+      <circle cx="725" cy="342" r="50"/><circle cx="725" cy="342" r="31"/><circle cx="725" cy="342" r="11"/>
+      <circle cx="855" cy="342" r="50"/><circle cx="855" cy="342" r="31"/><circle cx="855" cy="342" r="11"/>
+    </g>
+    <g class="pl-birlo">
+      <circle cx="225" cy="342" r="3"/><circle cx="215" cy="359.3" r="3"/><circle cx="195" cy="359.3" r="3"/><circle cx="185" cy="342" r="3"/><circle cx="195" cy="324.7" r="3"/><circle cx="215" cy="324.7" r="3"/>
+      <circle cx="745" cy="342" r="3"/><circle cx="735" cy="359.3" r="3"/><circle cx="715" cy="359.3" r="3"/><circle cx="705" cy="342" r="3"/><circle cx="715" cy="324.7" r="3"/><circle cx="735" cy="324.7" r="3"/>
+      <circle cx="875" cy="342" r="3"/><circle cx="865" cy="359.3" r="3"/><circle cx="845" cy="359.3" r="3"/><circle cx="835" cy="342" r="3"/><circle cx="845" cy="324.7" r="3"/><circle cx="865" cy="324.7" r="3"/>
+    </g>
+    <g class="pl-suelo">
+      <path d="M20 392 H980"/>
+      <path d="M40 392 l-14 14 M80 392 l-14 14 M120 392 l-14 14 M300 392 l-14 14 M340 392 l-14 14 M380 392 l-14 14 M420 392 l-14 14 M460 392 l-14 14 M500 392 l-14 14 M540 392 l-14 14 M580 392 l-14 14 M620 392 l-14 14 M960 392 l-14 14"/>
+    </g>
+    <g class="pl-cota">
+      <path d="M50 8 H962 M50 2 V14 M962 2 V14"/>
+      <path d="M986 26 V392 M980 26 H992 M980 392 H992"/>
+    </g>
+  </symbol>
+</svg>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera" id="cabecera">
+  <div class="cabecera__barra envoltura">
+    <a class="lockup" href="index.html" aria-label="Go On y Zapata Camiones, inicio" data-event="menu_clic" data-event-destino="inicio">
+      <img class="lockup__logo" src="assets/logos/logo-goon-blanco.webp" width="600" height="195" alt="Go On">
+      <span class="lockup__regla" aria-hidden="true"></span>
+      <img class="lockup__logo-zapata" src="assets/logos/logo-zapata-camiones-blanco.webp" width="480" height="122" alt="Zapata Camiones">
+    </a>
+    <nav class="menu" aria-label="Principal">
+      <ul class="menu__lista">
+        <li><a class="menu__enlace" href="index.html" data-nav-id="inicio" data-event="menu_clic" data-event-destino="inicio">Inicio</a></li>
+        <li><a class="menu__enlace" href="inventario.html" data-nav-id="inventario" data-event="menu_clic" data-event-destino="inventario">Inventario</a></li>
+        <li><a class="menu__enlace" href="financiamiento.html" data-nav-id="financiamiento" data-event="menu_clic" data-event-destino="financiamiento">Financiamiento</a></li>
+        <li><a class="menu__enlace" href="sucursales.html" data-nav-id="sucursales" data-event="menu_clic" data-event-destino="sucursales">Sucursales</a></li>
+        <li><a class="menu__enlace" href="nosotros.html" data-nav-id="nosotros" data-event="menu_clic" data-event-destino="nosotros">Nosotros</a></li>
+      </ul>
+    </nav>
+    <div class="cabecera__acciones">
+      <a class="btn btn--wa" href="#" data-wa data-wa-pagina data-event-origen="cabecera" aria-label="Escríbenos por WhatsApp">
+        <span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span><span class="btn__texto">WhatsApp</span>
+      </a>
+      <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-movil" data-accion="menu">
+        <svg class="icono" aria-hidden="true"><use href="#i-menu"/></svg><span class="sr">Abrir menú</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-movil" id="menu-movil" role="dialog" aria-modal="true" aria-label="Menú" hidden>
+  <div class="menu-movil__cabeza envoltura">
+    <a class="lockup" href="index.html" aria-label="Go On y Zapata Camiones, inicio">
+      <img class="lockup__logo" src="assets/logos/logo-goon-blanco.webp" width="600" height="195" alt="Go On">
+      <span class="lockup__regla" aria-hidden="true"></span>
+      <img class="lockup__logo-zapata" src="assets/logos/logo-zapata-camiones-blanco.webp" width="480" height="122" alt="Zapata Camiones">
+    </a>
+    <button class="menu-boton" type="button" data-accion="menu-cerrar">
+      <svg class="icono" aria-hidden="true"><use href="#i-cerrar"/></svg><span class="sr">Cerrar menú</span>
+    </button>
+  </div>
+  <nav class="envoltura" aria-label="Principal (celular)">
+    <ol class="menu-movil__lista">
+      <li><a href="index.html" data-nav-id="inicio" data-event="menu_clic" data-event-destino="inicio"><span class="menu-movil__num" aria-hidden="true">01</span>Inicio</a></li>
+      <li><a href="inventario.html" data-nav-id="inventario" data-event="menu_clic" data-event-destino="inventario"><span class="menu-movil__num" aria-hidden="true">02</span>Inventario</a></li>
+      <li><a href="financiamiento.html" data-nav-id="financiamiento" data-event="menu_clic" data-event-destino="financiamiento"><span class="menu-movil__num" aria-hidden="true">03</span>Financiamiento</a></li>
+      <li><a href="sucursales.html" data-nav-id="sucursales" data-event="menu_clic" data-event-destino="sucursales"><span class="menu-movil__num" aria-hidden="true">04</span>Sucursales</a></li>
+      <li><a href="nosotros.html" data-nav-id="nosotros" data-event="menu_clic" data-event-destino="nosotros"><span class="menu-movil__num" aria-hidden="true">05</span>Nosotros</a></li>
+      <li><a href="contacto.html" data-nav-id="contacto" data-event="menu_clic" data-event-destino="contacto"><span class="menu-movil__num" aria-hidden="true">06</span>Contacto</a></li>
+    </ol>
+    <div class="menu-movil__pie">
+      <a class="btn btn--wa btn--bloque" href="#" data-wa data-wa-pagina data-event-origen="menu_movil">
+        <span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span>Escríbenos por WhatsApp
+      </a>
+      <p class="menu-movil__corte">Corte: <time datetime="2026-09-24">24 de septiembre de 2026</time></p>
+    </div>
+  </nav>
+</div>
+
+<main id="contenido" tabindex="-1">
+<section class="portada portada--pagina inv-portada" data-cabecera="transparente" data-seccion="inventario-portada" aria-labelledby="inv-titulo">
+  <figure class="portada__foto" data-capa="ilustrativo:imagenes-ia">
+    <img src="assets/fondos/patio-nocturno-1280.webp"
+         srcset="assets/fondos/patio-nocturno-768.webp 768w, assets/fondos/patio-nocturno-1280.webp 1280w, assets/fondos/patio-nocturno-1536.webp 1536w"
+         sizes="100vw" width="1536" height="676" alt="" fetchpriority="high" decoding="async" style="--foco-foto:50% 72%">
+  </figure>
+  <div class="portada__velo inv-portada__velo" aria-hidden="true"></div>
+  <div class="portada__contenido envoltura inv-portada__contenido">
+    <div class="inv-portada__texto">
+      <h1 class="portada__titulo inv-portada__titulo" id="inv-titulo">Inventario <span class="inv-portada__marca">Go&nbsp;On</span></h1>
+      <p class="portada__proposito inv-portada__proposito">Tractocamiones seminuevos listos para trabajar. Compara precio, recorrido y ubicación, y conoce la unidad que te interesa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion--clara tema-claro inv-catalogo" id="unidades" data-seccion="inventario-catalogo" aria-labelledby="inv-titulo-unidades">
+  <div class="envoltura inv-disposicion">
+    <aside class="inv-lateral" aria-label="Filtros del inventario" data-inv-lateral>
+      <div class="inv-lateral__ancla" data-inv-ancla>
+        <div class="inv-aplicaciones inv-aplicaciones--lateral" data-capa="ilustrativo:busqueda-aplicacion">
+          <p class="inv-aplicaciones__titulo" id="inv-apps-titulo-lateral">Buscar por aplicación</p>
+          <div class="inv-aplicaciones__lista" role="group" aria-labelledby="inv-apps-titulo-lateral" aria-describedby="inv-apps-nota-lateral" data-inv-aplicaciones></div>
+          <p class="inv-aplicaciones__nota" id="inv-apps-nota-lateral">Atajos sugeridos por tipo de trabajo; revisa la ficha de cada unidad antes de decidir.</p>
+        </div>
+        <form class="inv-filtros" data-inv-filtros aria-labelledby="inv-filtros-titulo" novalidate>
+          <div class="inv-filtros__cabeza">
+            <h2 class="inv-filtros__titulo" id="inv-filtros-titulo">Filtrar</h2>
+            <button class="inv-limpiar" type="button" data-inv-limpiar hidden>Limpiar todo</button>
+          </div>
+
+          <fieldset class="inv-grupo">
+            <legend class="inv-grupo__titulo">Marca</legend>
+            <div class="inv-opciones" data-inv-opciones="marca"></div>
+          </fieldset>
+
+          <fieldset class="inv-grupo">
+            <legend class="inv-grupo__titulo">Año modelo</legend>
+            <div class="inv-opciones inv-opciones--chips" data-inv-opciones="anio"></div>
+          </fieldset>
+
+          <fieldset class="inv-grupo inv-precio">
+            <legend class="inv-grupo__titulo">Precio</legend>
+            <p class="inv-precio__valores" aria-hidden="true"><span data-inv-pmin-texto>—</span><span class="inv-precio__a">a</span><span data-inv-pmax-texto>—</span></p>
+            <div class="inv-rango" data-inv-rango>
+              <div class="inv-histograma" data-inv-histograma aria-hidden="true"></div>
+              <span class="inv-rango__pista" aria-hidden="true"><span class="inv-rango__relleno" data-inv-rango-relleno></span></span>
+              <input class="inv-rango__control" type="range" data-inv-pmin aria-label="Precio mínimo">
+              <input class="inv-rango__control" type="range" data-inv-pmax aria-label="Precio máximo">
+            </div>
+          </fieldset>
+
+          <fieldset class="inv-grupo">
+            <legend class="inv-grupo__titulo">Recorrido máximo</legend>
+            <div class="inv-opciones inv-opciones--chips" data-inv-km></div>
+          </fieldset>
+
+          <fieldset class="inv-grupo">
+            <legend class="inv-grupo__titulo">Sucursal</legend>
+            <div class="inv-opciones" data-inv-opciones="sucursal"></div>
+          </fieldset>
+
+          <details class="inv-grupo inv-plegable" data-inv-plegable="motor">
+            <summary class="inv-plegable__titulo"><span class="inv-grupo__titulo">Motor</span><span class="inv-plegable__activo" data-inv-activo="motor"></span><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg></summary>
+            <fieldset class="inv-plegable__campo">
+              <legend class="sr">Motor</legend>
+              <div class="inv-opciones" data-inv-opciones="motor"></div>
+            </fieldset>
+          </details>
+
+          <details class="inv-grupo inv-plegable" data-inv-plegable="trans">
+            <summary class="inv-plegable__titulo"><span class="inv-grupo__titulo">Transmisión</span><span class="inv-plegable__activo" data-inv-activo="trans"></span><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg></summary>
+            <fieldset class="inv-plegable__campo">
+              <legend class="sr">Transmisión</legend>
+              <div class="inv-opciones" data-inv-opciones="trans"></div>
+            </fieldset>
+          </details>
+
+          <details class="inv-grupo inv-plegable" data-inv-plegable="dorm">
+            <summary class="inv-plegable__titulo"><span class="inv-grupo__titulo">Dormitorio</span><span class="inv-plegable__activo" data-inv-activo="dorm"></span><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg></summary>
+            <fieldset class="inv-plegable__campo">
+              <legend class="sr">Dormitorio</legend>
+              <div class="inv-opciones inv-opciones--chips" data-inv-opciones="dorm"></div>
+            </fieldset>
+          </details>
+
+          <fieldset class="inv-grupo">
+            <legend class="inv-grupo__titulo">Mostrar</legend>
+            <div class="inv-segmento inv-segmento--ancho" role="group" aria-label="Agrupar resultados" data-inv-agrupar>
+              <button type="button" aria-pressed="true" data-valor="lotes">Por lote</button>
+              <button type="button" aria-pressed="false" data-valor="unidades">Unidades</button>
+            </div>
+            <label class="inv-opcion inv-opcion--suelta">
+              <input type="checkbox" data-inv-flota>
+              <span class="inv-opcion__caja" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#inv-i-tick"/></svg></span>
+              <span class="inv-opcion__texto">Solo lotes del mismo modelo</span>
+              <span class="inv-opcion__n" data-inv-flota-n></span>
+            </label>
+          </fieldset>
+        </form>
+      </div>
+    </aside>
+
+    <div class="inv-principal">
+      <header class="inv-cabeza">
+        <p class="folio inv-cabeza__folio"><span class="folio__num">Catálogo</span><span class="folio__regla" aria-hidden="true"></span><span class="folio__tema">Corte <time data-corte datetime="2026-09-24">24 de septiembre de 2026</time></span></p>
+        <h2 class="inv-cabeza__titulo" id="inv-titulo-unidades"><span class="inv-cabeza__n" data-inv-n data-conteo="go_on">34</span> <span data-inv-n-texto>unidades</span></h2>
+        <p class="inv-cabeza__detalle" data-inv-detalle>Califican por año modelo y kilometraje</p>
+      </header>
+
+      <div class="inv-barra" data-inv-barra>
+        <button class="inv-barra__filtros" type="button" data-inv-abrir aria-haspopup="dialog" aria-controls="inv-hoja">
+          <svg class="icono" aria-hidden="true"><use href="#inv-i-filtros"/></svg><span>Filtros</span><span class="inv-insignia" data-inv-n-filtros hidden></span>
+        </button>
+        <p class="inv-barra__conteo" aria-hidden="true"><b data-inv-n-barra data-conteo="go_on">34</b> <span data-inv-n-barra-texto>unidades</span></p>
+        <div class="inv-orden">
+          <label class="inv-orden__etiqueta" for="inv-orden">Ordenar</label>
+          <select class="campo__control inv-orden__control" id="inv-orden" data-inv-orden></select>
+        </div>
+        <div class="inv-segmento inv-segmento--iconos" role="group" aria-label="Vista de resultados" data-inv-vista>
+          <button type="button" aria-pressed="true" data-valor="cuadricula" title="Cuadrícula"><svg class="icono" aria-hidden="true"><use href="#inv-i-cuadricula"/></svg><span class="sr">Cuadrícula</span></button>
+          <button type="button" aria-pressed="false" data-valor="lista" title="Lista"><svg class="icono" aria-hidden="true"><use href="#inv-i-lista"/></svg><span class="sr">Lista</span></button>
+        </div>
+      </div>
+
+      <div class="inv-aplicaciones inv-aplicaciones--fila" data-capa="ilustrativo:busqueda-aplicacion">
+        <p class="inv-aplicaciones__titulo" id="inv-apps-titulo">Buscar por aplicación</p>
+        <div class="inv-aplicaciones__lista" role="group" aria-labelledby="inv-apps-titulo" aria-describedby="inv-apps-nota" data-inv-aplicaciones></div>
+        <p class="inv-aplicaciones__nota" id="inv-apps-nota">Atajos sugeridos; revisa la ficha de cada unidad antes de decidir.</p>
+      </div>
+
+      <p class="sr" role="status" aria-live="polite" aria-atomic="true" data-inv-anuncio></p>
+
+      <div class="inv-activos" data-inv-activos hidden>
+        <p class="sr" id="inv-activos-titulo">Filtros activos</p>
+        <ul class="inv-activos__lista" aria-labelledby="inv-activos-titulo" data-inv-chips></ul>
+        <button class="inv-limpiar" type="button" data-inv-limpiar>Limpiar todo</button>
+      </div>
+
+      <div class="inv-aviso" role="region" data-inv-lote-aviso hidden tabindex="-1" aria-labelledby="inv-lote-titulo">
+        <div class="inv-aviso__texto">
+          <p class="etiqueta"><span class="punto" aria-hidden="true"></span><span data-inv-lote-etiqueta>Lote del mismo modelo</span></p>
+          <p class="inv-aviso__titulo" id="inv-lote-titulo" data-inv-lote-titulo></p>
+          <p class="inv-aviso__detalle" data-inv-lote-detalle></p>
+        </div>
+        <div class="inv-aviso__acciones">
+          <a class="btn btn--wa" href="#" data-inv-lote-wa data-event-origen="inventario_lote"><span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span>Preguntar por el lote</a>
+          <button class="btn btn--linea" type="button" data-inv-quitar-lote>Ver todo el inventario</button>
+        </div>
+      </div>
+
+      <div class="inv-resultados__capa" data-capa="ya_opera:inventario-diario se_construye:sello-go-on ilustrativo:fotos-lote ilustrativo:calculadora ilustrativo:plano-tecnico">
+        <div class="inv-resultados" data-inv-resultados data-vista="cuadricula">
+          <p class="inv-cargando" data-inv-cargando><span class="inv-cargando__js">Cargando las unidades del corte…</span><span class="inv-cargando__sinjs">El catálogo con filtros necesita JavaScript activado.<span class="inv-cargando__anexo"> Cada unidad del corte está en el <a href="#anexo">anexo para verificar</a>.</span></span></p>
+        </div>
+      </div>
+
+      <div class="inv-mas" data-inv-mas hidden>
+        <p class="inv-mas__texto" data-inv-mas-texto></p>
+        <div class="inv-mas__barra" aria-hidden="true"><span data-inv-mas-barra></span></div>
+        <button class="btn btn--secundario inv-mas__boton" type="button" data-inv-mas-boton><span data-inv-mas-accion>Ver más unidades</span><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg></button>
+      </div>
+
+      <div class="inv-vacio" role="region" data-inv-vacio hidden tabindex="-1" aria-labelledby="inv-vacio-titulo">
+        <svg class="inv-vacio__dibujo" viewBox="0 0 1000 410" aria-hidden="true" focusable="false"><use href="#plano-tracto"/></svg>
+        <div class="inv-vacio__texto">
+          <p class="etiqueta"><span class="punto punto--ambar" aria-hidden="true"></span>Sin coincidencias</p>
+          <h3 class="inv-vacio__titulo" id="inv-vacio-titulo">Ninguna unidad del corte reúne todos estos filtros.</h3>
+          <p class="inv-vacio__entrada" data-inv-sugerencias-intro>Quita uno y te decimos cuántas unidades verías:</p>
+          <ul class="inv-vacio__sugerencias" data-inv-sugerencias></ul>
+          <div class="inv-vacio__acciones">
+            <button class="btn btn--primario" type="button" data-inv-limpiar><span>Ver las <span data-conteo="go_on">34</span> unidades</span><svg class="icono" aria-hidden="true"><use href="#i-flecha"/></svg></button>
+            <a class="btn btn--wa" href="#" data-wa data-event-origen="inventario_sin_resultados"><span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span>Dinos qué unidad buscas</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="nota inv-nota" id="nota-financiamiento"><span class="nota__marca" aria-hidden="true">*</span><span data-dato="mensajes.leyenda_financiamiento"></span></p>
+    </div>
+  </div>
+</section>
+
+<dialog class="inv-hoja tema-claro" id="inv-hoja" aria-labelledby="inv-hoja-titulo">
+  <div class="inv-hoja__cabeza">
+    <span class="inv-hoja__asa" aria-hidden="true"></span>
+    <h2 class="inv-hoja__titulo" id="inv-hoja-titulo">Filtros</h2>
+    <p class="inv-hoja__conteo" data-inv-hoja-conteo aria-live="polite"></p>
+    <button class="dialogo__cerrar" type="button" data-inv-cerrar>
+      <svg class="icono" aria-hidden="true"><use href="#i-cerrar"/></svg><span class="sr">Cerrar filtros</span>
+    </button>
+  </div>
+  <div class="inv-hoja__cuerpo" data-inv-hoja-cuerpo></div>
+  <div class="inv-hoja__pie">
+    <button class="btn btn--linea" type="button" data-inv-limpiar>Limpiar</button>
+    <button class="btn btn--primario" type="button" data-inv-ver>Ver <span data-inv-hoja-n>—</span></button>
+  </div>
+</dialog>
+
+<div data-sin-banda-cierre hidden></div>
+
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="inv-i-filtros" viewBox="0 0 24 24"><path d="M3.5 7h9.5M17.5 7h3M3.5 17h3M11 17h9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/><circle cx="15.2" cy="7" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.8" cy="17" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="inv-i-cuadricula" viewBox="0 0 24 24"><path d="M4 4h6.5v6.5H4zM13.5 4H20v6.5h-6.5zM4 13.5h6.5V20H4zM13.5 13.5H20V20h-6.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="inv-i-lista" viewBox="0 0 24 24"><path d="M4 5h5.5v5.5H4zM4 13.5h5.5V19H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12.5 6.5h7.5M12.5 9.5h4.5M12.5 15h7.5M12.5 18h4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  <symbol id="inv-i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></symbol>
+  <symbol id="inv-i-quitar" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></symbol>
+</svg>
+
+</main>
+
+<section class="banda-cierre" aria-labelledby="banda-cierre-titulo" data-seccion="banda-cierre">
+  <div class="envoltura">
+    <div class="banda-cierre__caja" data-capa="ya_opera:inventario-diario">
+      <div class="banda-cierre__texto">
+        <p class="etiqueta"><span class="punto punto--verde punto--vivo" aria-hidden="true"></span><span>Inventario en vivo · Corte: <time datetime="2026-09-24">24 de septiembre de 2026</time></span></p>
+        <h2 class="banda-cierre__titulo" id="banda-cierre-titulo"><span class="banda-cierre__cifra" data-conteo="go_on" data-contador>34</span> unidades Go&nbsp;On disponibles en la red de <span data-dato="marca.corporativo">Corporación Zapata</span>.</h2>
+      </div>
+      <div class="banda-cierre__acciones">
+        <a class="btn btn--primario" href="inventario.html" data-fuera-de="inventario" data-event="cta_ver_inventario" data-event-origen="banda_cierre">
+          Ver inventario<svg class="icono" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+        <a class="btn btn--wa" href="#" data-wa data-wa-pagina data-event-origen="banda_cierre">
+          <span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span>Escríbenos por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="pie">
+  <div class="envoltura pie__rejilla">
+    <div class="pie__marcas">
+      <img src="assets/logos/logo-goon-blanco.webp" width="600" height="195" alt="Go On" loading="lazy" decoding="async">
+      <span class="pie__regla" aria-hidden="true"></span>
+      <img src="assets/logos/logo-zapata-camiones-blanco.webp" width="480" height="122" alt="Zapata Camiones" loading="lazy" decoding="async">
+    </div>
+    <nav class="pie__nav" aria-label="Pie de página">
+      <a href="index.html">Inicio</a>
+      <a href="inventario.html">Inventario</a>
+      <a href="estandar.html">Estándar Go-On</a>
+      <a href="financiamiento.html">Financiamiento</a>
+      <a href="sucursales.html">Sucursales</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="pie__legal">
+      <p class="pie__corte">Corte: <time datetime="2026-09-24">24 de septiembre de 2026</time> · Precios en MXN.</p>
+      <p class="pie__leyenda" data-dato="mensajes.leyenda_maqueta">Maqueta de diseño · no es un sitio oficial</p>
+      <p>Las imágenes marcadas como ilustrativas no muestran unidades del inventario. Las fotos representativas pueden variar en color y detalles.</p>
+    </div>
+  </div>
+</footer>
+
+<nav class="barra-movil" aria-label="Acciones rápidas" data-barra-movil>
+  <a class="btn btn--wa" href="#" data-wa data-wa-pagina data-event-origen="barra_movil">
+    <span class="btn__wa" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg></span>WhatsApp
+  </a>
+  <a class="btn btn--primario" href="inventario.html" data-fuera-de="inventario" data-event="cta_ver_inventario" data-event-origen="barra_movil">Ver inventario</a>
+</nav>
+
+<dialog class="dialogo wa-demo tema-claro" id="wa-demo" aria-labelledby="wa-demo-titulo" aria-describedby="wa-demo-nota">
+  <div class="dialogo__cabeza">
+    <p class="etiqueta"><span class="punto punto--verde" aria-hidden="true"></span>Vista previa · modo demo</p>
+    <button class="dialogo__cerrar" type="button" data-accion="dialogo-cerrar">
+      <svg class="icono" aria-hidden="true"><use href="#i-cerrar"/></svg><span class="sr">Cerrar vista previa</span>
+    </button>
+  </div>
+  <h2 class="dialogo__titulo" id="wa-demo-titulo">Mensaje que se enviaría</h2>
+  <div class="wa-demo__chat" data-capa="ya_opera:whatsapp-raul">
+    <p class="wa-demo__para">Para: <strong>Go On Camiones</strong> · WhatsApp</p>
+    <p class="wa-demo__burbuja" data-wa-demo-mensaje></p>
+  </div>
+  <section class="wa-demo__ruteo" aria-labelledby="wa-demo-ruteo-titulo" data-capa="se_construye:prospecto-web-sf se_construye:reparto-por-centro">
+    <h3 class="etiqueta wa-demo__ruteo-titulo" id="wa-demo-ruteo-titulo"><span class="punto punto--ambar" aria-hidden="true"></span>Ruteo propuesto: sucursal + centro SAP</h3>
+    <dl class="wa-demo__datos">
+      <div><dt>Unidad</dt><dd data-wa-demo-unidad>—</dd></div>
+      <div><dt>Sucursal</dt><dd data-wa-demo-sucursal>—</dd></div>
+      <div><dt>Centro SAP</dt><dd data-wa-demo-centro>—</dd></div>
+    </dl>
+  </section>
+  <p class="wa-demo__nota" id="wa-demo-nota" data-wa-demo-nota></p>
+  <div class="dialogo__acciones">
+    <button class="btn btn--primario" type="button" data-accion="wa-copiar">
+      <svg class="icono" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar mensaje
+    </button>
+    <button class="btn btn--linea" type="button" data-accion="dialogo-cerrar">Cerrar</button>
+  </div>
+  <p class="wa-demo__estado" role="status" data-wa-demo-estado></p>
+</dialog>
+
+<script src="data/catalogo.js"></script>
+<script src="data/hechos.js"></script>
+<script src="data/sucursales.js"></script>
+<script src="js/nucleo.js"></script>
+<script src="js/financiamiento-core.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/tarjeta-unidad.js"></script>
+<script src="js/presentacion.js"></script>
+<script src="js/paginas/inventario.js"></script>
+</body>
+</html>

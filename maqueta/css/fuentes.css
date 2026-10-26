@@ -1,0 +1,14 @@
+/* Generado por scripts/optimizar_assets.py — no editar a mano.
+   Subset latino woff2, sin red: Basic Latin + Latin-1 + tipográficos presentes en TODAS las fuentes:
+   “ ” ‘ ’ ‚ „ – — … • · × ≤ ≥ − €
+   Montserrat NO trae: ✓ (el navegador usa otra fuente; para flechas o palomitas usar SVG).
+   Poppins NO trae: → ✓ (el navegador usa otra fuente; para flechas o palomitas usar SVG). */
+@font-face{font-family:'Poppins';font-style:normal;font-weight:400;font-display:swap;src:url('../assets/fuentes/poppins-400.woff2') format('woff2');}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url('../assets/fuentes/poppins-600.woff2') format('woff2');}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fuentes/poppins-700.woff2') format('woff2');}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:800;font-display:swap;src:url('../assets/fuentes/poppins-800.woff2') format('woff2');}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:900;font-display:swap;src:url('../assets/fuentes/poppins-900.woff2') format('woff2');}
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:400;font-display:swap;src:url('../assets/fuentes/montserrat-400.woff2') format('woff2');}
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:600;font-display:swap;src:url('../assets/fuentes/montserrat-600.woff2') format('woff2');}
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fuentes/montserrat-700.woff2') format('woff2');}
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:800;font-display:swap;src:url('../assets/fuentes/montserrat-800.woff2') format('woff2');}

@@ -1,0 +1,477 @@
+/* ==========================================================================
+   Go On Camiones — css/paginas/index.css (Inicio)
+   --------------------------------------------------------------------------
+   Solo lo propio del Home; todo lo demás sale de base.css / componentes.css.
+   Orden de la página:
+     Portada a pantalla completa (foto provisional; a la izquierda título,
+       descriptivo, Ver inventario y beneficios). Arriba irá la animación del Cascadia.
+     01 · Unidades disponibles (beige): rótulo centrado y destacadas.
+     Quién está detrás (oscura): «Respaldo Zapata», foto del corporativo y ejes.
+     Cómo comprar (blanco): recorrido con tractocamión naranja.
+   Móvil primero (390): cortes 480 · 600 · 900 · 1100 px.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Utilidades locales
+   -------------------------------------------------------------------------- */
+/* Palabra de acento del eslogan (la pone js/paginas/index.js) */
+.acento-marca { color: var(--go-naranja); }
+
+/* --------------------------------------------------------------------------
+   Portada (pantalla completa)
+   -------------------------------------------------------------------------- */
+.portada--inicio { background: var(--go-grad-radial); background-color: var(--go-navy); }
+/* Foto de fondo provisional (la reemplazará la animación del Cascadia) */
+.portada--inicio .portada__foto > img { object-position: var(--foco-foto, 60% 56%); }
+/* Velo navy: oscuro a la izquierda (donde va el texto) y abierto a la
+   derecha para que se vean la fila de tractos y el atardecer. En celular el
+   texto ocupa todo el ancho, así que el velo es parejo y más cerrado. */
+.portada--inicio .portada__velo {
+  background:
+    linear-gradient(180deg,
+      rgba(2, 2, 40, 0.82) 0%,
+      rgba(3, 3, 75, 0.62) 30%,
+      rgba(3, 3, 64, 0.58) 60%,
+      rgba(2, 2, 40, 0.90) 100%),
+    linear-gradient(95deg, rgba(3, 3, 75, 0.50) 0%, rgba(3, 3, 75, 0.16) 60%, rgba(29, 22, 74, 0.08) 100%);
+}
+@media (min-width: 900px) {
+  .portada--inicio .portada__velo {
+    background:
+      linear-gradient(90deg, rgba(2, 2, 40, 0.7) 0%, rgba(3, 3, 75, 0.45) 34%, rgba(3, 3, 75, 0.08) 62%, rgba(3, 3, 75, 0) 100%),
+      linear-gradient(180deg, rgba(2, 2, 40, 0.4) 0%, rgba(2, 2, 40, 0) 26%, rgba(2, 2, 40, 0) 70%, rgba(2, 2, 40, 0.55) 100%);
+  }
+}
+/* Panel diagonal translúcido detrás del texto (borde inclinado, como el diseño de referencia) */
+.portada--inicio .portada__velo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: rgba(3, 3, 75, 0.38); clip-path: polygon(0 0, 52% 0, 38% 100%, 0 100%);
+}
+@media (max-width: 899.98px) { .portada--inicio .portada__velo::after { display: none; } }
+/* Antetítulo: línea fina, mayúsculas y mucho espaciado */
+/* Botón sobre el antetítulo: lleva a go-on.mx */
+.inicio-portada__ligeros { border: 3px solid var(--go-blanco); box-shadow: 0 0 0 1px rgba(2, 2, 40, 0.35); align-self: flex-start; margin: 0 0 clamp(18px, 3vh, 30px); min-height: 48px; padding: 0 20px; font-size: 0.9375rem; text-align: left; }
+.inicio-portada__antetitulo {
+  margin: 0 0 clamp(14px, 2.4vh, 24px); font: 300 clamp(0.8125rem, 0.7rem + 0.45vw, 1.125rem)/1.3 var(--go-font-body);
+  letter-spacing: 0.34em; text-transform: uppercase; color: rgba(255, 255, 255, 0.92); text-shadow: var(--go-sombra-texto);
+}
+.inicio-portada__linea--acento { color: var(--go-naranja); }
+/* Modo P: el distintivo de la foto va bajo el «Fig. 00» (derecha) */
+.modo-presentacion .portada--inicio .portada__foto > .distintivos {
+  left: auto; right: var(--go-sp-gutter); top: calc(var(--alto-cabecera) + 46px);
+  justify-content: flex-end;
+}
+@media (max-width: 899.98px) {
+  .modo-presentacion .inicio-portada { padding-top: calc(var(--alto-cabecera) + 96px); }
+}
+
+/* Contenido a la izquierda, un poco arriba del centro: título → descriptivo →
+   botón → beneficios. */
+.inicio-portada {
+  flex: 1 1 auto; justify-content: center;
+  padding-top: calc(var(--alto-cabecera) + clamp(24px, 6vh, 64px));
+  padding-bottom: clamp(56px, 12vh, 120px);
+}
+.inicio-portada__titulo {
+  max-width: none; text-transform: uppercase; line-height: 0.92; letter-spacing: -0.025em;
+  /* Tres renglones; el más largo («seminuevos») mide ≈ 6.4 em. En celular
+     llena ≈ 85 % del ancho; desde 900 px ocupa ≈ un tercio de la pantalla. */
+  font-size: clamp(2.25rem, 12.4vw, 4.5rem);
+}
+/* Tres renglones fijos: «CAMIONES» / «SEMINUEVOS» / «PREMIUM» */
+.inicio-portada__linea { display: block; white-space: nowrap; }
+.inicio-portada__descripcion {
+  margin: clamp(20px, 4vh, 40px) 0 clamp(20px, 4vh, 36px); max-width: 44ch;
+  /* Regular (400): es el peso más ligero que trae Montserrat en assets/fuentes */
+  font: 400 clamp(1.125rem, 0.9rem + 0.7vw, 1.625rem)/1.4 var(--go-font-body);
+  color: var(--go-blanco); text-shadow: var(--go-sombra-texto);
+}
+.inicio-portada__descripcion .acento-marca { font-weight: 600; }
+/* Frase de apoyo bajo la principal: más pequeña */
+.inicio-portada__sub {
+  margin: 0 0 clamp(20px, 4.4vh, 44px); max-width: 40ch;
+  font: 400 0.9375rem/1.4 var(--go-font-body); color: rgba(255, 255, 255, 0.9); text-shadow: var(--go-sombra-texto);
+}
+.inicio-portada .portada__acciones .btn { flex: 0 0 auto; }
+/* Beneficios: una línea discreta bajo el botón, con puntos naranjas */
+.inicio-portada__beneficios {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; margin: clamp(20px, 5.8vh, 56px) 0 0;
+  font: 400 0.9375rem/1.5 var(--go-font-body);
+  color: rgba(255, 255, 255, 0.94); text-shadow: var(--go-sombra-texto);
+}
+.inicio-portada__sep { color: var(--go-naranja); font-weight: 700; }
+
+@media (max-width: 599.98px) {
+  .inicio-portada .portada__acciones .btn { flex: 1 1 100%; }
+  /* La línea no cabe en un renglón: cada beneficio lleva su punto delante
+     (así ningún separador queda colgando al final de un renglón). */
+  .inicio-portada__beneficios { gap: 2px 16px; }
+  .inicio-portada__sep { display: none; }
+  .inicio-portada__beneficios > span:not(.inicio-portada__sep)::before {
+    content: ""; display: inline-block; width: 5px; height: 5px; margin: 0 8px 2px 0;
+    border-radius: 50%; background: var(--go-naranja); vertical-align: middle;
+  }
+}
+@media (min-width: 600px) and (max-width: 899.98px) {
+  .inicio-portada__titulo { font-size: 8vw; }
+}
+@media (min-width: 900px) {
+  .inicio-portada__titulo { font-size: clamp(2.75rem, min(4.95vw, 10.4vh), 6rem); }
+  .inicio-portada .btn--grande { min-height: 64px; padding-inline: 1.9rem; font-size: 1.1875rem; }
+  .inicio-portada { padding-bottom: clamp(72px, 16vh, 180px); }
+}
+
+/* --------------------------------------------------------------------------
+   Pits2GO: banner horizontal delgado bajo la portada (azul de la marca, acento naranja).
+   Todo el banner es clicable: el enlace del botón se extiende con ::after.
+   -------------------------------------------------------------------------- */
+.pits-seccion { padding-block: clamp(16px, 2.4vw, 28px); background: var(--go-crema); color: var(--go-navy); }
+.pits-banner {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 18px;
+  padding: 14px 16px 14px 22px;
+  background: linear-gradient(110deg, #03034B 0%, #0A0C66 100%);
+  border-radius: 12px; color: var(--go-blanco);
+  box-shadow: 0 10px 28px rgba(3, 3, 75, 0.22);
+}
+.pits-banner::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; z-index: 1; background: var(--go-naranja); }
+.pits-banner__caja-logo { display: inline-flex; padding: 6px 9px; background: #000; border-radius: 3px; }
+.pits-banner__logo { width: 104px; height: auto; }
+.pits-banner__titulo {
+  margin: 0; font: 800 clamp(1.125rem, 1rem + 0.7vw, 1.625rem)/1.1 var(--go-font-display); letter-spacing: -0.01em;
+}
+.pits-banner__cta { grid-column: 1 / -1; min-height: 44px; }
+/* Enlace extendido: cualquier clic en el banner abre Pits2GO */
+.pits-banner__cta::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; }
+.pits-banner:hover .pits-banner__cta { background: var(--go-accent-fill-hover); }
+.pits-banner:hover .pits-banner__cta .icono { transform: translateX(3px); }
+/* Foto de los filtros: solo desde tableta, como cuña a la derecha */
+.pits-banner__foto { display: none; margin: 0; }
+.pits-banner__pie { display: none; }
+@media (min-width: 700px) {
+  .pits-banner {
+    grid-template-columns: auto minmax(0, 1fr) auto clamp(220px, 24vw, 340px); column-gap: clamp(18px, 3vw, 36px);
+    padding: 0 0 0 clamp(24px, 3vw, 40px); min-height: 96px;
+  }
+  .pits-banner__cta { grid-column: auto; }
+  .pits-banner__logo { width: 124px; }
+  .pits-banner__foto {
+    display: block; position: relative; align-self: stretch; overflow: hidden; background: #F3EEE3;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%); mask-image: linear-gradient(90deg, transparent 0%, #000 22%);
+  }
+  .pits-banner__foto img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 55%;
+    transition: transform 700ms var(--go-curva-salida);
+  }
+  .pits-banner:hover .pits-banner__foto img { transform: scale(1.05); }
+  .pits-banner__pie {
+    display: block; position: absolute; right: 6px; top: 6px; z-index: 1; padding: 1px 7px; white-space: nowrap;
+    background: rgba(255, 255, 255, 0.92); border-radius: 999px; color: #5A5B70; font: 600 0.8125rem/1.3 var(--go-font-body);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pits-banner__foto img { transition: none; }
+  .pits-banner:hover .pits-banner__foto img { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Encabezado dividido (título a la izquierda, entrada a la derecha)
+   -------------------------------------------------------------------------- */
+@media (min-width: 900px) {
+  .inicio-encabezado {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(32px, 5vw, 80px); align-items: end;
+  }
+  .inicio-encabezado > .folio { grid-column: 1 / -1; }
+  .inicio-encabezado > .entrada { margin: 0; padding-bottom: 6px; }
+}
+
+/* Celular: encabezados más cortos para no alejar el contenido */
+@media (max-width: 599.98px) {
+  .inicio-proceso .encabezado,
+  .inicio-escalera .encabezado { gap: 12px; margin-bottom: 24px; }
+  .inicio-proceso .entrada,
+  .inicio-escalera .entrada { font-size: var(--go-fs-base); line-height: 1.55; }
+}
+
+/* --------------------------------------------------------------------------
+   01 · Unidades disponibles (beige)
+   -------------------------------------------------------------------------- */
+.inicio-disponibles { background: var(--go-crema); }
+.inicio-disponibles__aviso { margin: 12px 0 clamp(24px, 3.4vw, 40px); text-align: center; font: 600 var(--go-fs-base)/1.5 var(--go-font-body); color: var(--go-text-muted); }
+.inicio-disponibles__aviso b { color: var(--go-text); font-weight: 800; }
+/* El rótulo «— UNIDADES DISPONIBLES —» es el componente .rotulo (componentes.css) */
+
+/* Destacadas. Celular: carrusel con desliz; la tarjeta deja ver ~30 px de la
+   siguiente; el contenedor sale a sangre y respeta el margen con
+   scroll-padding. La página NUNCA se desplaza en horizontal: solo el carrusel. */
+.inicio-tarjetas { align-items: stretch; }
+/* Diseño de referencia: tarjeta redondeada con sombra suave; marca arriba, modelo a la izquierda y año a la derecha,
+   precio grande y, al final, la nota de la foto. Solo se ven marca, modelo, año y precio. */
+.inicio-tarjetas .tarjeta {
+  border: 0; border-radius: 16px; overflow: hidden;
+  background: var(--go-crema-tarjeta); box-shadow: 0 12px 34px rgba(3, 3, 75, 0.10);
+}
+.inicio-tarjetas .tarjeta__media { border-radius: 0; }
+.inicio-tarjetas .tarjeta__insignia {
+  background: rgba(40, 52, 82, 0.82); border: 0; border-radius: 999px; padding: 7px 14px; letter-spacing: 0.06em;
+}
+.inicio-tarjetas .tarjeta__cuerpo { order: 1; flex: 0 0 auto; padding: 18px 22px 8px; }
+.inicio-tarjetas .tarjeta__pie {
+  order: 2; display: flex; align-items: center; gap: 10px; margin: 0 22px; padding: 12px 0 18px;
+  border-top: 1px solid var(--go-crema-linea); font: 400 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted);
+}
+.inicio-tarjetas .tarjeta__marca {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 4px;
+  font: 600 0.8125rem/1.2 var(--go-font-display); letter-spacing: 0.28em; text-transform: uppercase; color: var(--go-text-muted);
+}
+.inicio-tarjetas .tarjeta__marca::after { content: ""; flex: 1 1 auto; max-width: 90px; border-top: 1px solid var(--go-crema-linea); }
+.inicio-tarjetas .tarjeta__marca .id-mono { display: none; }
+.inicio-tarjetas .tarjeta__enlace { display: block; }
+.inicio-tarjetas .tarjeta__enlace > span { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.inicio-tarjetas .tarjeta__anio { color: var(--go-naranja-activo); font-weight: 800; }
+.inicio-tarjetas .tarjeta__precio { margin-top: 10px; }
+.inicio-tarjetas .tarjeta__estandar,
+.inicio-tarjetas .tarjeta__pictos,
+.inicio-tarjetas .tarjeta__medicion,
+.inicio-tarjetas .tarjeta__datos,
+.inicio-tarjetas .tarjeta__desde,
+.inicio-tarjetas .tarjeta__nota { display: none; }
+.inicio-tarjetas .tarjeta__acciones { margin-top: 18px; padding: 0 0 12px; }
+.inicio-tarjetas .tarjeta__acciones .btn { width: 100%; }
+/* Título y aviso de la sección */
+.inicio-disponibles__titulo {
+  margin: 0; text-align: center; text-transform: uppercase; letter-spacing: -0.02em;
+  font: 900 clamp(2rem, 1.2rem + 3.6vw, 4rem)/1 var(--go-font-display); color: var(--go-navy);
+}
+.inicio-disponibles__titulo .acento-marca { color: var(--go-naranja); }
+@media (max-width: 599.98px) {
+  .inicio-vitrina { margin-inline: calc(var(--go-sp-gutter) * -1); }
+  .inicio-vitrina > .distintivos { margin-inline: var(--go-sp-gutter); }
+  .inicio-tarjetas {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc(100% - 28px);
+    gap: 12px; padding: 2px var(--go-sp-gutter) 6px;
+    overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--go-sp-gutter);
+    scrollbar-width: none;
+  }
+  .inicio-tarjetas::-webkit-scrollbar { display: none; }
+  .inicio-tarjetas > .tarjeta { scroll-snap-align: start; }
+  .inicio-tarjetas:focus-visible { outline-offset: -3px; }
+  /* Tarjeta un poco más angosta que la pantalla: el WhatsApp cabe en un renglón (52 px) */
+  .inicio-tarjetas .tarjeta__cuerpo { padding-inline: 16px; }
+  .inicio-tarjetas .tarjeta__pie { padding-inline: 16px; }
+  .inicio-tarjetas .tarjeta__acciones .btn--wa { padding-inline: 12px; }
+}
+.inicio-vitrina__guia {
+  display: flex; align-items: center; gap: 14px; margin: 14px 0 0; padding-inline: var(--go-sp-gutter);
+  font: 600 var(--go-texto-min-movil)/1.3 var(--go-font-body); color: var(--go-text-muted);
+}
+.inicio-vitrina__pos { font: 700 0.9375rem/1 var(--go-font-display); letter-spacing: 0.06em; color: var(--go-text-muted); white-space: nowrap; }
+.inicio-vitrina__pos b { color: var(--go-text); font-weight: 800; }
+.inicio-vitrina__puntos { display: inline-flex; gap: 6px; }
+.inicio-vitrina__puntos i {
+  display: block; width: 18px; height: 3px; background: var(--go-line-strong);
+  transition: background-color var(--go-dur-base) var(--go-curva-estandar), width var(--go-dur-base) var(--go-curva-salida);
+}
+.inicio-vitrina__puntos i.es-actual { width: 30px; background: var(--go-naranja); }
+.inicio-vitrina__texto { margin-left: auto; white-space: nowrap; }
+@media (min-width: 600px) {
+  .inicio-vitrina__guia { display: none !important; }
+}
+
+.inicio-destacadas__pie { display: flex; justify-content: center; margin-top: clamp(28px, 4vw, 48px); }
+/* Botón en pastilla con contorno naranja (diseño de referencia) */
+.btn--pastilla {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 2rem;
+  background: transparent; color: var(--go-navy); border: 2px solid var(--go-naranja); border-radius: 999px;
+  font: 700 1rem/1 var(--go-font-display); text-decoration: none;
+  transition: background-color var(--go-dur-base) var(--go-curva-estandar), color var(--go-dur-base) var(--go-curva-estandar);
+}
+.btn--pastilla .icono { width: 18px; height: 18px; transition: transform var(--go-dur-base) var(--go-curva-salida); }
+.btn--pastilla:hover { background: var(--go-naranja); color: var(--go-on-accent); }
+.btn--pastilla:hover .icono { transform: translateX(3px); }
+@media (max-width: 479.98px) { .btn--pastilla { width: 100%; } }
+
+/* --------------------------------------------------------------------------
+   Respaldo Zapata (azul): título + descriptivo, foto real del corporativo y tres tarjetas
+   -------------------------------------------------------------------------- */
+.inicio-respaldo { background: var(--go-grad-fondo); background-color: var(--go-navy); }
+.inicio-respaldo__cabeza { display: grid; gap: 28px; align-items: center; margin-bottom: clamp(24px, 3.4vw, 40px); }
+.inicio-respaldo__titulo {
+  margin: 0; text-transform: uppercase; color: var(--go-blanco);
+  font: 900 clamp(2.5rem, 12.4vw, 4.5rem)/0.95 var(--go-font-display); letter-spacing: -0.025em;
+}
+.inicio-respaldo__entrada { margin: clamp(16px, 2.4vw, 28px) 0 0; max-width: 34ch; font: 400 clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem)/1.45 var(--go-font-body); color: var(--go-text-muted); }
+.inicio-edificio { margin: 0; }
+.inicio-edificio__marco {
+  aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px;
+  background: #3A4A7A; border: 1px solid rgba(70, 110, 220, 0.55);
+  box-shadow: 0 0 0 1px rgba(3, 3, 75, 0.6), 0 18px 48px rgba(2, 2, 40, 0.5);
+}
+.inicio-edificio__marco img { width: 100%; height: 100%; object-fit: cover; object-position: 36% 24%; }
+
+.inicio-ejes { display: grid; gap: 14px; }
+.inicio-eje {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: clamp(20px, 2.2vw, 28px);
+  background: rgba(2, 2, 40, 0.42); border: 1px solid rgba(70, 110, 220, 0.4); border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.inicio-eje__icono {
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(36, 74, 196, 0.38); color: var(--go-blanco);
+}
+.inicio-eje__icono .icono { width: 24px; height: 24px; }
+.inicio-eje__cifra { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; }
+.inicio-eje__numero { font: 900 clamp(2.75rem, 2.2rem + 2.4vw, 4rem)/0.9 var(--go-font-display); letter-spacing: -0.03em; color: var(--go-naranja); }
+.inicio-eje__unidad { font: 800 clamp(1.125rem, 1rem + 0.5vw, 1.5rem)/1.1 var(--go-font-display); color: var(--go-blanco); }
+.inicio-eje__texto {
+  margin: 4px 0 0; padding-top: 12px; max-width: 26ch; border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font: 400 var(--go-fs-base)/1.5 var(--go-font-body); color: var(--go-text-muted);
+}
+@media (min-width: 900px) {
+  .inicio-respaldo__cabeza { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(32px, 5vw, 80px); }
+  .inicio-respaldo__titulo { font-size: clamp(2.75rem, min(5.4vw, 10.4vh), 6rem); }
+  .inicio-ejes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+   02 · Cómo comprar: recorrido del cliente (blanco)
+   El camino es una franja navy con línea central discontinua; el tractocamión
+   naranja (SVG en la plantilla) va sobre él. En escritorio cada paso marca su
+   parada sobre el camino; en celular los pasos bajan en línea de tiempo.
+   -------------------------------------------------------------------------- */
+.inicio-proceso { background: var(--go-crema); }
+/* Título en un renglón desde tableta (en celular se parte solo) */
+.inicio-proceso .titulo-seccion { max-width: none; }
+.inicio-ruta { --camino: 12px; position: relative; }
+.inicio-ruta__camino {
+  position: relative; height: calc(var(--camion-alto, 56px) + var(--camino) / 2);
+  margin-bottom: 28px;
+}
+.inicio-ruta__camino::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--camino);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0 18px, transparent 18px 34px) center / 100% 2px no-repeat,
+    var(--go-navy);
+  border-radius: 999px;
+}
+.inicio-ruta__camion {
+  position: absolute; left: 0; bottom: calc(var(--camino) - 2px); z-index: 1;
+  width: auto; height: var(--camion-alto, 56px);
+}
+.cr-caja, .cr-cabina { fill: var(--go-naranja); }
+.cr-franja { fill: rgba(255, 255, 255, 0.35); }
+.cr-oscuro, .cr-rueda { fill: var(--go-navy); }
+.cr-rin { fill: #C9CBD8; }
+.cr-vidrio { fill: #FFFFFF; opacity: 0.9; }
+.cr-linea { fill: none; stroke: rgba(3, 3, 75, 0.35); stroke-width: 1.5; }
+/* Al entrar en pantalla (comun.js pone .es-visible) el camino queda quieto y
+   solo el camión avanza. Estático, sin JS o con movimiento reducido: en su sitio. */
+.js .inicio-ruta__camino[data-revela]:not(.es-visible) { opacity: 1; transform: none; }
+.js .inicio-ruta__camino[data-revela] .inicio-ruta__camion {
+  transition: opacity 640ms var(--go-curva-salida), transform 1400ms var(--go-curva-salida);
+}
+.js .inicio-ruta__camino[data-revela]:not(.es-visible) .inicio-ruta__camion { opacity: 0; transform: translateX(-64px); }
+.goon-estatico .inicio-ruta__camion,
+.js-fallo .inicio-ruta__camion { opacity: 1 !important; transform: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .js .inicio-ruta__camion { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+.inicio-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.inicio-paso {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: center; align-content: start;
+  padding: clamp(18px, 2vw, 26px); background: var(--go-crema-tarjeta); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(3, 3, 75, 0.08);
+}
+.inicio-paso__num {
+  margin: 0; font: 900 clamp(2.5rem, 2.1rem + 1.6vw, 3.75rem)/1 var(--go-font-display); letter-spacing: -0.02em; color: var(--go-naranja);
+}
+.inicio-paso__icono {
+  grid-column: 2; grid-row: 1; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(236, 107, 35, 0.12); color: var(--go-navy);
+}
+.inicio-paso__icono .icono { width: 36px; height: 36px; }
+.inicio-paso > :not(.inicio-paso__num):not(.inicio-paso__icono) { grid-column: 1 / -1; }
+.inicio-paso__titulo { margin: 14px 0 4px; font: 800 clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem)/1.15 var(--go-font-display); color: var(--go-navy); }
+.inicio-paso__texto { margin: 0; max-width: 24ch; font: 400 var(--go-fs-base)/1.45 var(--go-font-body); color: var(--go-text-muted); }
+
+/* Encabezado centrado */
+.inicio-proceso__encabezado { display: grid; justify-items: center; gap: 12px; margin-bottom: clamp(24px, 4vw, 44px); text-align: center; }
+.inicio-proceso__titulo {
+  margin: 0; max-width: none; color: var(--go-navy);
+  font: 900 clamp(2rem, 1.2rem + 3.6vw, 4rem)/1.05 var(--go-font-display); letter-spacing: -0.03em;
+}
+.inicio-proceso__entrada { margin: 0; max-width: 46ch; font: 400 clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem)/1.45 var(--go-font-body); color: var(--go-text-muted); }
+.inicio-proceso__pie { display: flex; justify-content: center; margin-top: clamp(28px, 4vw, 44px); }
+
+/* Camino: en celular solo el camión sobre la franja; desde 900 px, una parada por tarjeta */
+.inicio-ruta { --camino: 12px; --camion-alto: 56px; --separa: 24px; position: relative; }
+@media (min-width: 900px) {
+  .inicio-ruta__camino { margin-bottom: 0; }
+  .inicio-ruta__camion { left: 6%; }
+  .inicio-pasos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: var(--separa); }
+  .inicio-paso::before {
+    content: ""; position: absolute; left: 50%; top: calc(var(--separa) * -1 - var(--camino) / 2 - 9px); width: 18px; height: 18px; margin-left: -9px;
+    background: var(--go-naranja); border: 3px solid var(--go-crema); border-radius: 50%; box-shadow: 0 0 0 1px var(--go-naranja);
+  }
+  .modo-presentacion .inicio-pasos { margin-top: 140px; }
+  .modo-presentacion .inicio-paso[data-capa-pos="arriba"] > .distintivos { top: -14px; left: 0; max-width: 100%; }
+}
+@media (min-width: 1100px) {
+  .inicio-ruta { --camion-alto: 72px; }
+}
+@media (max-width: 899.98px) {
+  .modo-presentacion .inicio-paso[data-capa-pos="arriba"] > .distintivos { position: static; transform: none; margin: 0 0 10px; max-width: 100%; }
+}
+@media (min-width: 600px) and (max-width: 899.98px) {
+  .inicio-pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* --------------------------------------------------------------------------
+   Impresión: todo en su sitio, sin carrusel
+   -------------------------------------------------------------------------- */
+@media print {
+  .portada--inicio { min-height: 0; }
+  .inicio-vitrina { margin-inline: 0; }
+  .inicio-tarjetas { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); overflow: visible; padding: 0; }
+  .inicio-vitrina__guia { display: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Botón-tarjeta «El Estándar Go On» (derecha de la portada en escritorio; debajo del texto en celular)
+   -------------------------------------------------------------------------- */
+.inicio-estandar {
+  position: relative; display: grid; gap: 10px; margin-top: clamp(28px, 5vh, 44px); padding: 22px 22px 20px;
+  background: linear-gradient(160deg, rgba(36, 74, 196, 0.5) 0%, rgba(3, 3, 75, 0.9) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.28); border-top: 4px solid var(--go-naranja); border-radius: 14px;
+  color: var(--go-blanco); text-decoration: none; box-shadow: 0 22px 54px rgba(2, 2, 40, 0.5);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: transform var(--go-dur-base) var(--go-curva-salida), box-shadow var(--go-dur-base) var(--go-curva-salida), border-color var(--go-dur-base) var(--go-curva-salida);
+}
+.inicio-estandar:hover { transform: translateY(-4px); border-color: rgba(236, 107, 35, 0.8); box-shadow: 0 28px 64px rgba(2, 2, 40, 0.6); }
+.inicio-estandar__etiqueta { font: 700 var(--go-texto-min-movil)/1.3 var(--go-font-display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--go-naranja-claro); }
+.inicio-estandar__titulo { font: 800 clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem)/1.15 var(--go-font-display); letter-spacing: -0.01em; text-wrap: balance; }
+.inicio-estandar__texto { font: 400 var(--go-fs-sm)/1.45 var(--go-font-body); color: rgba(255, 255, 255, 0.88); }
+.inicio-estandar__etapas { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.inicio-estandar__etapas li {
+  display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.07); border-radius: var(--go-radio-editorial);
+  font: 600 var(--go-texto-min-movil)/1.25 var(--go-font-body);
+}
+.inicio-estandar__etapas b { min-width: 1.6em; font: 900 1rem/1 var(--go-font-display); color: var(--go-naranja); }
+.inicio-estandar__ir {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; margin-top: 6px; padding: 0 18px;
+  background: var(--go-naranja); color: var(--go-on-accent); border-radius: var(--go-radio-editorial);
+  font: 800 1rem/1.2 var(--go-font-display);
+}
+.inicio-estandar__ir .icono { width: 20px; height: 20px; transition: transform var(--go-dur-base) var(--go-curva-salida); }
+.inicio-estandar:hover .inicio-estandar__ir .icono { transform: translateX(4px); }
+@media (min-width: 1100px) {
+  .portada--inicio .portada__contenido { position: relative; }
+  .inicio-estandar {
+    position: absolute; right: var(--go-sp-gutter); bottom: clamp(40px, 8vh, 110px); width: min(380px, 30vw); margin-top: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .inicio-estandar, .inicio-estandar:hover { transition: none; transform: none; } }

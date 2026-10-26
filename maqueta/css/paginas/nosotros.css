@@ -1,0 +1,403 @@
+/* ==========================================================================
+   Go On Camiones — nosotros.css (solo nosotros.html)
+   --------------------------------------------------------------------------
+   Capa de página sobre base → componentes → presentación. Prefijo .nos-*.
+   Móvil primero (390); cortes del sistema 600 · 900 · 1100.
+   Secuencia: portada (foto del corporativo + cifras de respaldo) → 01 respaldo (claro,
+   foto real de fachada + red por estado + 3 ejes) → 02 propósito (radial,
+   problema → respuesta) → 03 pilares (foto IA + tarjetas translúcidas) →
+   04 lo que recibe el cliente (claro) → 05 escalera de marcas (foto IA +
+   diagrama «¿Califica por año modelo y kilometraje?»).
+   Solo pesos cargados: Poppins 400–900, Montserrat 400/600/700/800.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Folios de sección: en celular el tema puede partirse en dos líneas en vez
+   de salirse del borde (la regla se encoge hasta desaparecer).
+   -------------------------------------------------------------------------- */
+#contenido .folio__tema { white-space: normal; text-align: right; }
+#contenido .folio__regla { min-width: 16px; }
+/* Interlineado del titular de sección: con 1.02 los descendentes («riesgo»)
+   tocan la línea siguiente. (Pedido también para base.css.) */
+#contenido .titulo-seccion { line-height: 1.06; }
+/* Celular: chips con cifra y etiquetas son texto informativo → piso de 14 px.
+   (Pedido también para componentes.css.) */
+@media (max-width: 599.98px) {
+  #contenido .chip,
+  #contenido .etiqueta { font-size: var(--go-texto-min-movil); }
+}
+
+/* --------------------------------------------------------------------------
+   Portada
+   -------------------------------------------------------------------------- */
+/* Portada compacta: antetítulo, titular (2 renglones en escritorio), propósito,
+   botones y cifras caben en la primera pantalla. */
+.nos-portada { background: var(--go-grad-radial); background-color: var(--go-navy); }
+.nos-portada .portada__contenido {
+  justify-content: center;
+  padding-top: calc(var(--alto-cabecera) + clamp(40px, 6vh, 64px)); padding-bottom: clamp(32px, 5vh, 56px);
+}
+.nos-portada__titulo { max-width: 14ch; }
+@media (min-width: 900px) {
+  .nos-portada { min-height: 100vh; min-height: 100svh; }
+  .nos-portada .portada__contenido { padding-top: calc(var(--alto-cabecera) + clamp(20px, 5vh, 56px)); padding-bottom: clamp(28px, 6vh, 72px); }
+  .nos-portada__titulo { max-width: 22ch; font-size: clamp(2.5rem, min(4.3vw, 7.6vh), 4.5rem); }
+  .nos-portada .portada__proposito { margin: clamp(10px, 1.8vh, 20px) 0 clamp(14px, 2.6vh, 26px); max-width: 50ch; }
+  .nos-portada .nos-cifras { margin-top: clamp(16px, 3.6vh, 40px); }
+  .nos-portada .nos-cifras__valor { font-size: clamp(2rem, min(3vw, 6vh), 3.25rem); }
+  .nos-portada .nos-cifras__item { padding: clamp(10px, 1.8vh, 16px) 20px clamp(12px, 2vh, 18px); }
+  /* La foto es un panel a la derecha (≈ 52 %) que se funde hacia el texto;
+     el encuadre deja completo el letrero «ZAPATA» */
+  .nos-portada__foto { left: auto; width: 52%; }
+  .nos-portada__foto > img {
+    object-position: 8% 30%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.85) 16%, #000 26%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.85) 16%, #000 26%);
+  }
+  .nos-portada .portada__velo { background: linear-gradient(180deg, rgba(2, 2, 40, 0.35) 0%, rgba(2, 2, 40, 0) 24%, rgba(2, 2, 40, 0) 76%, rgba(2, 2, 40, 0.45) 100%); }
+}
+/* En celular el antetítulo se queda en «Nosotros»: el grupo ya lo nombran el
+   propósito y el folio de la sección 01 (así no se parte en dos renglones). */
+@media (max-width: 599.98px) { .nos-portada .nos-portada__corp { display: none; } }
+.nos-portada .portada__proposito { max-width: 46ch; }
+
+/* Cifras de respaldo en franjas translúcidas (injerto A), a la izquierda:
+   la esquina inferior derecha queda libre para la consola del modo P. */
+.nos-cifras {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
+  margin: clamp(28px, 4vw, 48px) 0 0; max-width: 720px;
+}
+.nos-cifras__item {
+  display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 6px;
+  min-width: 0; padding: 12px 12px 14px;
+  background: var(--go-tarjeta-fondo); border: 1px solid var(--go-tarjeta-borde);
+  border-top: 2px solid var(--go-naranja); border-radius: var(--go-radio-editorial);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.nos-cifras__valor {
+  margin: 0; font: 900 clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem)/0.9 var(--go-font-display);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--go-blanco);
+}
+.nos-cifras__etiqueta {
+  font: 600 var(--go-texto-min-movil)/1.3 var(--go-font-body); color: rgba(255, 255, 255, 0.86);
+}
+@media (min-width: 600px) {
+  .nos-cifras { gap: 12px; }
+  .nos-cifras__item { padding: 16px 20px 18px; }
+}
+
+/* --------------------------------------------------------------------------
+   01 · Respaldo (claro)
+   -------------------------------------------------------------------------- */
+.nos-respaldo__rejilla { display: grid; gap: clamp(28px, 4vw, 56px); }
+@media (min-width: 900px) {
+  .nos-respaldo__rejilla { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+}
+
+/* Foto real de la fachada: recorte fijo que deja fuera los rótulos de terceros
+   (insignia a la izquierda y marca a la derecha). El original mide 1920×416;
+   con cover el recorte horizontal lo decide object-position. */
+.nos-fachada { margin: 0; }
+.nos-fachada__marco {
+  position: relative; overflow: hidden; aspect-ratio: 1.9 / 1;
+  background: var(--go-gris-100); border-radius: var(--go-radio-editorial);
+}
+.nos-fachada__marco::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 4px; background: var(--go-grad-barra);
+}
+.nos-fachada__marco img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 21% 50%;
+}
+@media (min-width: 900px) {
+  .nos-fachada__marco { aspect-ratio: 2.2 / 1; }
+  .nos-fachada__marco img { object-position: 22.9% 50%; }
+}
+
+.nos-red__titulo {
+  margin: 12px 0 18px; max-width: 22ch;
+  font: 800 clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem)/1.18 var(--go-font-display); letter-spacing: -0.01em;
+  color: var(--go-text);
+}
+.nos-red__lista { margin: 0 0 18px; border-top: 2px solid var(--go-text); }
+.nos-red__lista > div {
+  display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 4px 16px;
+  padding: 10px 0; border-bottom: 1px solid var(--go-line);
+}
+.nos-red__lista dt { font: 700 var(--go-texto-min-movil)/1.4 var(--go-font-display); color: var(--go-text); }
+.nos-red__lista dd { margin: 0; font: 600 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted); }
+
+/* Ejes del respaldo: tarjetas del Consejo con punto de color (injerto A) */
+.nos-ejes {
+  list-style: none; margin: clamp(40px, 6vw, 80px) 0 0; padding: 0;
+  display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr);
+}
+.nos-eje { background: var(--go-bg); }
+.nos-eje .tarjeta-consejo__texto { max-width: 42ch; }
+.nos-eje .chips { margin-top: auto; padding-top: 6px; }
+@media (min-width: 900px) {
+  .nos-ejes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+   02 · Propósito: problema → respuesta
+   -------------------------------------------------------------------------- */
+.nos-giro { display: grid; gap: 0; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+.nos-giro__lado {
+  position: relative; display: flex; flex-direction: column; gap: 14px;
+  padding: clamp(22px, 3vw, 40px); border-radius: var(--go-radio-editorial);
+}
+.nos-giro__lado--antes {
+  border: 1px dashed rgba(255, 255, 255, 0.34); background: rgba(2, 2, 40, 0.28);
+}
+.nos-giro__lado--despues {
+  background: var(--go-tarjeta-fondo); border: 1px solid var(--go-tarjeta-borde);
+  border-top: 3px solid var(--go-naranja); box-shadow: var(--go-sombra-oscura);
+}
+.nos-giro__texto {
+  margin: 0; max-width: 24ch; text-wrap: balance;
+  font: 800 clamp(1.3125rem, 1.1rem + 0.9vw, 1.875rem)/1.2 var(--go-font-display); letter-spacing: -0.01em;
+}
+.nos-giro__lado--antes .nos-giro__texto { color: var(--go-text-muted); font-weight: 700; }
+.nos-giro__puntos { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 0; }
+.nos-giro__puntos li {
+  position: relative; padding: 10px 0 10px 26px; border-top: 1px solid var(--go-line);
+  font: 600 var(--go-fs-base)/1.45 var(--go-font-body);
+}
+.nos-giro__puntos li::before {
+  content: ""; position: absolute; left: 2px; top: 1.05em; width: 12px; height: 2px; background: var(--go-naranja);
+}
+.nos-giro__lado--antes .nos-giro__puntos li { color: var(--go-text-muted); }
+.nos-giro__lado--antes .nos-giro__puntos li::before { background: var(--go-coral); width: 10px; }
+
+.nos-giro__eje { display: grid; place-items: center; padding: 14px 0; }
+.nos-giro__flecha {
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid var(--go-naranja); color: var(--go-naranja); background: var(--go-noche);
+  transform: rotate(90deg);
+}
+.nos-giro__flecha .icono { width: 24px; height: 24px; }
+@media (min-width: 900px) {
+  .nos-giro { grid-template-columns: minmax(0, 1fr) 88px minmax(0, 1fr); }
+  .nos-giro__eje { padding: 0; position: relative; }
+  .nos-giro__eje::before {
+    content: ""; position: absolute; left: 50%; top: 12%; bottom: 12%; width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(236, 107, 35, 0.6), transparent);
+  }
+  .nos-giro__flecha { position: relative; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   03 · Pilares (foto a sangre + tarjetas translúcidas)
+   -------------------------------------------------------------------------- */
+.nos-pilares .seccion__fondo::after {
+  background:
+    linear-gradient(180deg, rgba(2, 2, 40, 0.94) 0%, rgba(3, 3, 60, 0.72) 30%, rgba(3, 3, 60, 0.66) 70%, rgba(2, 2, 32, 0.94) 100%),
+    linear-gradient(100deg, rgba(3, 3, 75, 0.7) 0%, rgba(3, 3, 75, 0.25) 60%, rgba(29, 22, 74, 0.4) 100%);
+}
+.nos-pie-fondo { right: var(--go-sp-gutter); bottom: 14px; }
+.nos-pilares__lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr);
+}
+.nos-pilares__entrada { max-width: 52ch; color: rgba(255, 255, 255, 0.9); }
+.nos-pilar { gap: 10px; }
+/* Número del pilar en naranja sólido, como en la lista de entrega (sistema Consejo). */
+.nos-pilar__num {
+  margin: 0 0 2px; font: 900 clamp(2.25rem, 1.9rem + 1.4vw, 3.25rem)/0.95 var(--go-font-display);
+  letter-spacing: -0.02em; color: var(--go-naranja); font-variant-numeric: tabular-nums;
+}
+.nos-pilar__lema {
+  margin: 0; padding-left: 12px; border-left: 2px solid var(--go-naranja);
+  font: 600 var(--go-fs-base)/1.45 var(--go-font-display); color: var(--go-blanco);
+}
+.nos-pilar .chips { margin-top: auto; padding-top: 8px; }
+@media (min-width: 900px) {
+  .nos-pilares__lista { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+   05 · Escalera de marcas: diagrama de decisión (injerto B)
+   -------------------------------------------------------------------------- */
+.nos-escalera .seccion__fondo::after {
+  background:
+    linear-gradient(180deg, rgba(2, 2, 40, 0.92) 0%, rgba(3, 3, 64, 0.66) 34%, rgba(3, 3, 64, 0.72) 64%, rgba(2, 2, 32, 0.95) 100%),
+    linear-gradient(90deg, rgba(3, 3, 75, 0.55), rgba(3, 3, 75, 0.2) 50%, rgba(3, 3, 75, 0.55));
+}
+
+.nos-flujo { --g-ramas: 16px; display: grid; justify-items: center; }
+.nos-flujo__entrada,
+.nos-flujo__decision { position: relative; text-align: center; }
+.nos-flujo__entrada {
+  display: inline-flex; flex-direction: column; gap: 4px; margin: 0; padding: 12px 20px;
+  background: rgba(2, 2, 40, 0.72); border: 1px solid rgba(255, 255, 255, 0.36); border-radius: var(--go-radio-editorial);
+  font: 700 var(--go-fs-base)/1.3 var(--go-font-display);
+}
+.nos-flujo__clave {
+  font: 700 var(--go-texto-min-movil)/1.2 var(--go-font-display); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--go-text-muted);
+}
+/* Conectores verticales entre entrada, decisión y ramas */
+.nos-flujo__entrada::after,
+.nos-flujo__decision::after {
+  content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 28px; background: rgba(255, 255, 255, 0.5);
+}
+.nos-flujo__decision {
+  display: grid; justify-items: center; gap: 10px; margin: 28px 0 0; padding: 18px 22px 16px; max-width: 30rem;
+  background: rgba(2, 2, 40, 0.8); border: 1px solid var(--go-naranja); border-radius: var(--go-radio-editorial);
+}
+.nos-flujo__rombo {
+  position: absolute; left: 50%; top: -8px; width: 14px; height: 14px; margin-left: -7px;
+  background: var(--go-noche); border: 1px solid var(--go-naranja); transform: rotate(45deg);
+}
+.nos-flujo__pregunta { margin: 0; font: 800 clamp(1.1875rem, 1.05rem + 0.6vw, 1.5rem)/1.2 var(--go-font-display); text-wrap: balance; }
+.nos-flujo__reglas { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.nos-flujo__reglas li {
+  display: inline-flex; align-items: baseline; gap: 4px; padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.36); border-radius: var(--go-radio-editorial);
+  font: 700 var(--go-texto-min-movil)/1.2 var(--go-font-display); color: var(--go-blanco);
+}
+.nos-flujo__signo { color: var(--go-naranja); }
+
+.nos-flujo__ramas {
+  position: relative; width: 100%; margin-top: 28px;
+  display: grid; gap: var(--g-ramas); grid-template-columns: minmax(0, 1fr); align-items: stretch;
+}
+.nos-rama {
+  position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  padding: clamp(22px, 3vw, 36px); border-radius: var(--go-radio-editorial);
+}
+.nos-rama--goon {
+  background: rgba(3, 3, 75, 0.94); border: 1px solid var(--go-tarjeta-borde);
+  border-top: 4px solid var(--go-naranja); box-shadow: var(--go-sombra-oscura);
+}
+.nos-rama--valor { background: rgba(2, 2, 40, 0.74); border: 1px solid rgba(255, 255, 255, 0.3); }
+.nos-rama__respuesta {
+  display: flex; align-items: center; gap: 10px; margin: 0;
+  font: 700 var(--go-texto-min-movil)/1.2 var(--go-font-display); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--go-text-muted);
+}
+.nos-rama__marca-si,
+.nos-rama__marca-no {
+  display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 8px;
+  border: 1px solid; border-radius: var(--go-radio-editorial); letter-spacing: 0.1em;
+}
+.nos-rama__marca-si { color: var(--go-naranja-claro); border-color: var(--go-naranja); }
+.nos-rama__marca-no { color: var(--go-blanco); border-color: rgba(255, 255, 255, 0.5); }
+.nos-rama__logo { align-self: flex-start; width: auto; max-width: 70%; height: clamp(40px, 3.4vw, 52px); margin: 6px 0 2px; object-fit: contain; }
+.nos-rama__titulo { font: 800 clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem)/1.15 var(--go-font-display); letter-spacing: -0.01em; }
+.nos-rama--valor .nos-rama__titulo { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem); }
+.nos-rama__texto { margin: 0; color: var(--go-text-muted); max-width: 46ch; }
+.nos-rama .btn,
+.nos-rama .enlace-flecha { align-self: flex-start; margin-top: auto; }
+.nos-rama--goon .btn { margin-top: 8px; }
+/* Modo P: el detalle por confirmar ya dice para qué unidades es Selectrucks;
+   el criterio se oculta para no repetir la misma frase dos veces. */
+.modo-presentacion .nos-rama__detalle:not([hidden]) + .nos-rama__criterio { display: none; }
+
+/* Celular y tableta: las ramas se apilan. Un riel a la izquierda baja desde la
+   decisión y entra con un codo a cada rama (Sí en naranja, No en blanco), así la
+   rama «No» también sale de la decisión y no parece venir de la rama «Sí». */
+@media (max-width: 899.98px) {
+  .nos-flujo { --riel: 20px; --codo: calc(clamp(22px, 3vw, 36px) + 14px); }
+  .nos-flujo__decision { justify-self: stretch; max-width: none; }
+  .nos-flujo__decision::after { left: var(--riel); }
+  .nos-flujo__ramas { padding-left: calc(var(--riel) + 10px); }
+  .nos-rama::before,
+  .nos-rama::after { content: ""; position: absolute; background: rgba(255, 255, 255, 0.5); }
+  .nos-rama::before { left: -10px; width: 1px; }
+  .nos-rama--goon::before { top: -28px; bottom: calc(-1 * var(--g-ramas)); }
+  .nos-rama--valor::before { top: 0; height: var(--codo); }
+  .nos-rama::after { left: -10px; top: var(--codo); width: 10px; height: 1px; }
+  .nos-rama--goon::after { height: 2px; margin-top: -1px; background: var(--go-naranja); }
+}
+@media (min-width: 900px) {
+  .nos-flujo { --g-ramas: 28px; }
+  .nos-flujo__ramas { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); margin-top: 56px; }
+  /* «T» que reparte la decisión hacia el centro de cada rama */
+  .nos-flujo__ramas::before {
+    content: ""; position: absolute; top: -28px; height: 1px; background: rgba(255, 255, 255, 0.5);
+    left: calc((100% - var(--g-ramas)) * 0.2872); right: calc((100% - var(--g-ramas)) * 0.2128);
+  }
+  .nos-rama::before {
+    content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 28px; background: rgba(255, 255, 255, 0.5);
+  }
+  .nos-rama--goon::before { height: 32px; background: var(--go-naranja); }
+}
+
+/* Proporción del corte: go_on de red (el ancho lo pone nosotros.js) */
+.nos-proporcion {
+  display: grid; gap: 10px; margin: clamp(32px, 5vw, 56px) 0 0; padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); max-width: 760px;
+}
+.nos-proporcion__texto { margin: 0; font: 700 var(--go-fs-md)/1.4 var(--go-font-display); }
+.nos-proporcion__texto b { font-weight: 900; font-variant-numeric: tabular-nums; }
+.nos-proporcion__cifra { color: var(--go-naranja); }
+.nos-proporcion__barra { position: relative; height: 8px; background: rgba(255, 255, 255, 0.16); }
+.nos-proporcion__barra > span {
+  position: absolute; inset: 0 auto 0 0; width: var(--pct, 0%); background: var(--go-grad-barra);
+  transition: width 700ms var(--go-curva-salida);
+}
+.nos-proporcion__corte { margin: 0; font: 600 var(--go-texto-min-movil)/1.4 var(--go-font-body); color: var(--go-text-muted); }
+.nos-proporcion__corte time { color: var(--go-blanco); }
+
+/* --------------------------------------------------------------------------
+   Modo presentación e impresión
+   -------------------------------------------------------------------------- */
+.modo-presentacion .nos-flujo > .distintivos { justify-content: center; }
+/* Modo P en celular: el distintivo de la foto y el pie «Imagen ilustrativa»
+   comparten la esquina superior; el pie baja al borde inferior de la portada. */
+@media (max-width: 599.98px) {
+  .modo-presentacion .nos-portada .portada__pie { top: auto; bottom: 10px; }
+  .modo-presentacion .nos-portada .portada__contenido { padding-bottom: 56px; }
+}
+
+@media print {
+  .nos-recibe__lado { position: static; }
+  .nos-giro__lado, .nos-rama, .nos-eje, .nos-pilar, .nos-entrega__item { break-inside: avoid; }
+  /* El encabezado no se queda solo al pie de una hoja y los bloques no se parten. */
+  #contenido .encabezado, #contenido .folio { break-after: avoid; page-break-after: avoid; }
+  .nos-fachada, .nos-cifras, .nos-giro, .nos-flujo, .nos-proporcion, .nos-red { break-inside: avoid; page-break-inside: avoid; }
+  /* En A4 (≈ 720 px útiles) se usan las rejillas de escritorio: menos hojas y
+     sin tarjetas sueltas al inicio de una hoja. */
+  .nos-respaldo__rejilla { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; }
+  .nos-ejes, .nos-pilares__lista { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .nos-ejes, .nos-pilares__lista { break-inside: avoid; page-break-inside: avoid; }
+  .nos-giro { grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr); }
+  .nos-giro__flecha { transform: none; width: 40px; height: 40px; }
+  .nos-eje, .nos-pilar { padding: 16px; }
+  #contenido .encabezado { break-inside: avoid; page-break-inside: avoid; }
+  .nos-recibe__rejilla { display: block; }
+  .nos-recibe__lado { break-after: avoid; page-break-after: avoid; }
+  /* Ramas lado a lado; sin el riel de celular (la decisión baja al centro). */
+  .nos-flujo__ramas { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); padding-left: 0; }
+  .nos-rama::before, .nos-rama::after { display: none; }
+  .nos-flujo__decision { justify-self: center; max-width: 30rem; }
+  .nos-flujo__decision::after { left: 50%; }
+}
+
+/* --------------------------------------------------------------------------
+   Otra marca de camiones: mención corta (Selectrucks Zapata)
+   -------------------------------------------------------------------------- */
+.nos-otra-marca { background: var(--go-grad-fondo); background-color: var(--go-navy); }
+.nos-otra-marca__caja { display: grid; gap: 18px; align-items: center; }
+.nos-otra-marca__titulo { margin: 8px 0 8px; font: 900 clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem)/1.05 var(--go-font-display); letter-spacing: -0.02em; }
+.nos-otra-marca__texto { margin: 0; max-width: 52ch; color: var(--go-text-muted); }
+@media (min-width: 900px) {
+  .nos-otra-marca__caja { grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(32px, 5vw, 80px); }
+}
+
+/* Respaldo: título en dos líneas a todo lo ancho; «Dónde estamos» a la izquierda y la foto a la derecha */
+.nos-respaldo__titulo { max-width: none; text-wrap: balance; }
+@media (min-width: 1100px) { .nos-respaldo__titulo { font-size: clamp(2.5rem, 0.8rem + 2.9vw, 3.75rem); } }
+@media (min-width: 900px) { .nos-respaldo__rejilla { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+.nos-red__boton { margin-top: 22px; }
+/* Propósito y Pilares: encabezado centrado, título en una sola línea */
+.encabezado--centro { justify-items: center; text-align: center; }
+.encabezado--centro .titulo-seccion, .encabezado--centro .entrada { max-width: none; margin-inline: auto; text-align: center; }
+.encabezado--centro .folio { width: 100%; }
+@media (min-width: 900px) { .encabezado--centro .titulo-seccion { white-space: nowrap; } }
+
+/* Respaldo sin encabezado: las tres tarjetas ocupan la sección con un aire parejo arriba y abajo */
+.nos-respaldo { padding-block: clamp(40px, 5vw, 72px); }
+.nos-respaldo .nos-ejes { margin-top: 0; }
